@@ -1,1 +1,0 @@
-# LocalProductsFinder.app

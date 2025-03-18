@@ -35,6 +35,10 @@ dependencies:
   fluttertoast: ^8.2.2
   shared_preferences: ^2.5.2
   image_picker: ^1.1.2
+  cupertino_icons: ^1.0.8
+  string_similarity: ^2.1.1
+  fuzzy: ^0.5.1
+  provider: ^6.1.2
   
 
 
@@ -92,6 +96,7 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
   assets:
+      - lib/assets/products.json
       #- images/Group_2_1.png
       - lib/assets/images/logo.svg
       - lib/assets/images/Group 2 (1).png

@@ -17,12 +17,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<List<Product>> futureProducts;
+  static Future<List<Product>>? futureProducts;
 
   @override
   void initState() {
     super.initState();
-    futureProducts = fetchProducts();
+    futureProducts ??= fetchProducts();
   }
 
   Future<List<Product>> fetchProducts() async {
@@ -46,7 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const HomeHeader(), 
+            if (futureProducts != null) // ✅ Ensure futureProducts is initialized
+              HomeHeader(futureProducts: futureProducts!), 
             
             const SizedBox(height: 10 , width: 20,),
           

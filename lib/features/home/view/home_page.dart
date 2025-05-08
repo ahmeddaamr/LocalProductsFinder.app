@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:localproductsfinder/core/models/product.dart';  // ✅ Import common Product model
 import 'package:localproductsfinder/core/const/config.dart';
+import 'dart:math';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -80,7 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     itemCount: products.length,
                     itemBuilder: (context, index) {
-                      return ProductCard(product: products[index]);
+                      final random = Random();
+                      int randomIndex = random.nextInt(products.length);
+                      return ProductCard(product: products[randomIndex]);
                     },
                   );
                 },

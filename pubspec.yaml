@@ -1,0 +1,58 @@
+name: flutter_application_1
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  animated_text_kit: ^4.2.3
+  fluttertoast: ^8.2.2
+  shared_preferences: ^2.5.2
+  image_picker: ^1.1.2
+  
+  # awesome_dialog: ^3.2.1
+  # cloud_firestore: ^5.6.5
+  # firebase_auth: ^5.5.1
+  # google_sign_in: ^6.2.2
+  # curpertion_icons: ^1.0.2
+  icons_plus: ^5.0.0
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+      #- images/Group_2_1.png
+      - lib/assets/images/logo.svg
+      - lib/assets/images/Group 2 (1).png
+      - lib/assets/images/Local Product Finder.png
+      - lib/assets/images/corona.png
+      - lib/assets/images/spiro.png
+      - lib/assets/images/chips.png
+      - lib/assets/images/molto.png
+      - lib/assets/images/filter.png
+      - lib/assets/images/Layer_1.png
+      - lib/assets/images/error.png
+      - lib/assets/images/onBoarding1.png
+      - lib/assets/images/onBoarding2.png
+      - lib/assets/images/onBoarding3.png
+      - lib/assets/images/onBoarding4.png 
+
+
+
+    
+  fonts:
+   - family: Montserrat
+     fonts:
+        - asset: lib/assets/fonts/Montserrat-Bold.ttf
+
+ 

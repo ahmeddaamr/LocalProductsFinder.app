@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
               buildTextField('E-mail', _emailController),
               // const SizedBox(height: 16),
               buildTextField('Password', _passwordController, obscureText: true),
-              const SizedBox(height: 40),
+              const SizedBox(height: 60),
               buildMainButton(
                 buttonText:'Log in',
                 onPressed:  () {

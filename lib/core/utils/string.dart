@@ -7,6 +7,9 @@ static const camera = '/camera';
 static const favorit = '/favorit';
 static const profile = '/profil';
 static const recommendation = '/recommendation';
+// static const welcom = '/welcom';
+static const login = "/login";
+static const signUp = "/signUp";
 
 }
 
@@ -22,4 +25,8 @@ class Path
   static const filter = "lib/assets/images/filter.png";
   static const image = "lib/assets/images/Layer_1.png";
   static const error = "lib/assets/images/error.png";
+  static const onBoarding1 = "lib/assets/images/onBoarding1.png";
+  static const onBoarding2 = "lib/assets/images/onBoarding2.png";
+  static const onBoarding3 = "lib/assets/images/onBoarding3.png";
+  static const onBoarding4 = "lib/assets/images/onBoarding4.png";
 }

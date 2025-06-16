@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:localproductsfinder/core/router/rounting.dart';
+import 'package:localproductsfinder/core/router/routing.dart';
 import 'package:localproductsfinder/core/utils/string.dart';
 // import 'package:flutter_application_1/core/routing/app_router.dart';
 

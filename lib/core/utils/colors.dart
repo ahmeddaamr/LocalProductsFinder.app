@@ -12,6 +12,7 @@ static Color greenColor = Colors.green ;
 static Color arrowColor =  Colors.grey;
 static Color blackColor = Colors.black ;
 static Color homeBackgroundColor = const Color.fromRGBO(242,248,244,1);    
+static Color loginInputColor = Color(0xFFEBEBEB);
 
 }
 

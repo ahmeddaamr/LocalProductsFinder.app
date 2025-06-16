@@ -7,6 +7,7 @@ static const camera = '/camera';
 static const favorit = '/favorit';
 static const profile = '/profil';
 static const recommendation = '/recommendation';
+static const review = '/review';
 // static const welcom = '/welcom';
 static const login = "/login";
 static const signUp = "/signUp";

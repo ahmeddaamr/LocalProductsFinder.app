@@ -4,6 +4,7 @@ import 'package:flutter_application_1/core/utils/string.dart';
 import 'package:flutter_application_1/features/camera/view/camera_page.dart';
 import 'package:flutter_application_1/features/home/view/home_page.dart';
 import 'package:flutter_application_1/features/lg_in/view/login.dart';
+import 'package:flutter_application_1/features/make_review/makeReview_view.dart';
 import 'package:flutter_application_1/features/onBoarding/onBoarding.dart';
 import 'package:flutter_application_1/features/recomended_products/view/recommended_products_page.dart';
 import 'package:flutter_application_1/features/sign_up/view/sighUp.dart';
@@ -45,6 +46,14 @@ class AppRouter{
         
         case Routes.camera:
         return MaterialPageRoute(builder: (_) => CameraPage());
+
+      case Routes.review:
+        return MaterialPageRoute(
+          builder: (_) => MakeReviewPage(
+            productTitle: 'here my spiro ', // TODO: Replace with actual product title
+            productImageUrl: Path.spiro, // TODO: Replace with actual product image URL
+          ),
+        );
 
       default:
       return MaterialPageRoute(builder: (_) => HomeScreen()

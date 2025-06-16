@@ -3,7 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class MyColors {
-static  Color buttonColor = const Color.fromRGBO(45, 193, 82, 1);
+  static Color fiterCancleButton = const Color.fromARGB(255, 239, 237, 237);
+static  Color buttonColor = Colors.green;
 static Color whiteColor = const Color.fromRGBO(255, 255, 255, 1);
 static Color backgroundColor = const Color.fromRGBO(255, 255, 255, 1);
 static Color fontColor  =Colors.black;

@@ -26,7 +26,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         Navigator.pushReplacementNamed(context, Routes.camera);
         break;
 case 2:
-       Navigator.pushReplacementNamed(context, Routes.favorit);
+       Navigator.pushReplacementNamed(context, Routes.review);
         break;
 
 

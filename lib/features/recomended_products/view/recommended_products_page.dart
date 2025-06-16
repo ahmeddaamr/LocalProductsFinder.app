@@ -20,8 +20,6 @@ final List<Map<String, String>> sampleProducts = [
   },
 ];
 
-
-
 class RecommendedProductsPage extends StatelessWidget {
   const RecommendedProductsPage({super.key});
 

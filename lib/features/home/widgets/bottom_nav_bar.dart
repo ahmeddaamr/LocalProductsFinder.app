@@ -30,9 +30,9 @@ case 2:
         break;
 
 
-//       case 3:
-//        Navigator.pushReplacementNamed(context, Routes.profile);
-//         break;
+       case 3:
+        Navigator.pushReplacementNamed(context, Routes.profile);
+         break;
     }
   }
 

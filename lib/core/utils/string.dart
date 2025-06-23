@@ -29,5 +29,5 @@ class Path
   static const onBoarding2 = "lib/assets/images/onBoarding2.png";
   static const onBoarding3 = "lib/assets/images/onBoarding3.png";
   static const onBoarding4 = "lib/assets/images/onBoarding4.png";
-
+  static const Thanks = "lib/assets/images/OBJECTS (3).png";
 }

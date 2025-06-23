@@ -126,20 +126,22 @@ Widget buildTextField(String hintText
   {
 return Padding(
     padding: const EdgeInsets.all(8),
+  
     child:
-    SizedBox(
-
+  SizedBox(
   height: 50.0,
     child: TextField(
       controller: Controller,
       obscureText: obscureText,
      
       decoration: InputDecoration(
+  
         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         hintStyle: TextStyle(color: MyColors.arrowColor, fontSize: 13),
         hintText: hintText,
         filled: true,
         fillColor: MyColors.loginInputColor,
+        
         border: OutlineInputBorder(
           
           borderRadius: BorderRadius.circular(30),

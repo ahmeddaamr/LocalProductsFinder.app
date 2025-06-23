@@ -7,27 +7,30 @@ Widget buildReviewHeader({
   required BuildContext context,
   String ? title,
 }) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-    child: Row(
-      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  return 
+  // Padding(
+    // padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0), child:
+   Row(
+      //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        
+       
         IconButton(
-          icon: Icon(Icons.arrow_back_ios_sharp , color: MyColors.arrowColor,),
+          icon: Icon(Icons.arrow_back_ios_sharp , color: MyColors.arrowColor, size: 20,),
           onPressed: () => Navigator.pop(context),
         ),
 
-        SizedBox(width: 10,),
+        // SizedBox(width: 2,),
 
         Text(
           title ?? '',
-          style:  TextStyle( fontFamily: MyFonts.montserratFont,
+          style:  TextStyle( fontFamily: MyFonts.montserratFont, fontSize: 20 , fontWeight: FontWeight.w200 , 
               ),
         ),
 
       ],
-    ),
-  );
+    );
+  // );
 }
 
 
@@ -41,20 +44,21 @@ Widget buildReviewButton({
     onPressed: onTap,
 
     style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.green,
-      shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(30),
-),
-    padding: EdgeInsets.symmetric(vertical: 16),
-     minimumSize: Size(double.infinity, 50),
-    ),
-
+            fixedSize: const Size(330, 48),
+            //maximumSize: const Size(double.infinity, 50),
+            backgroundColor: Colors.green,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            // padding: const EdgeInsets.symmetric(vertical: 0),
+          ),
     child: Text(
       label,
       style: TextStyle(
-        fontFamily: MyFonts.montserratFont,
+         fontFamily: MyFonts.montserratFont,
+         fontWeight: FontWeight.w100,
         color: Colors.white,
-        fontSize: 16.0,
+        fontSize: 16,
       ),
     ),
 
@@ -66,27 +70,36 @@ Widget buildReviewButton({
 Widget buildProductImageAndTitle({
   required String productImageUrl,
   required String productTitle,
-  double imageSize = 100,
+  double imageSize = 130,
   double spacing = 15,
 
 }) {
   return Column(
+    // mainAxisAlignment: MainAxisAlignment.center,
+    // crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      
-      Image.network(
-        productImageUrl,
-        width: imageSize,
-        height: imageSize,
+      Center(
+        child: Image.asset(
+
+          productImageUrl,
+          width: imageSize,
+          height: imageSize,
+          fit: BoxFit.cover,
+          alignment: Alignment.center,
+        ),
       ),
       SizedBox(height: spacing),
-      Text(
-        productTitle,
-        style: 
-            const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
+      Center(
+        child: Text(
+          productTitle,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+          textAlign: TextAlign.center,
+        ),
       ),
+      SizedBox(height: spacing),
     ],
   );
 }
@@ -113,11 +126,11 @@ Widget buildReviewTextField({
 
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20),
-        borderSide: const BorderSide(color: Colors.green),
+        borderSide: BorderSide(color:MyColors.buttonColor,),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20),
-        borderSide: const BorderSide(color: Colors.green),
+        borderSide: BorderSide(color:MyColors.buttonColor,),
       ),
     ),
   );
@@ -128,16 +141,26 @@ Widget buildReviewRatingBar({
   required ValueChanged<double> onRatingUpdate,
 }) {
   return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
+    // mainAxisAlignment: MainAxisAlignment.center,
+    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    // crossAxisAlignment: CrossAxisAlignment.center,
     children: List.generate(5, (index) {
-      return IconButton(
+      return
+      
+      
+      Padding(padding: EdgeInsets.symmetric( horizontal: 5 ),
+      child: 
+       IconButton(
+        
         icon: Icon(
+          size: 50 , 
           Icons.star_rate_sharp ,
           color: index < initialRating ? Colors.grey:Colors.amber ,
         ),
         onPressed: () => onRatingUpdate(index + 1.0),
-      );
+      ),);
     }),
+  
   );
 }
 

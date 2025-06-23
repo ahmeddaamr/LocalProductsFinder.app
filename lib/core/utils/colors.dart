@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class MyColors {
   static Color fiterCancleButton = const Color.fromARGB(255, 239, 237, 237);
-static  Color buttonColor = Colors.green;
+static  Color buttonColor = const Color.fromARGB(215, 50, 196, 52);
 static Color whiteColor = const Color.fromRGBO(255, 255, 255, 1);
 static Color backgroundColor = const Color.fromRGBO(255, 255, 255, 1);
 static Color fontColor  =Colors.black;

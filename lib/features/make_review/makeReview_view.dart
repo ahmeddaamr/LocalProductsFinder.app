@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/utils/colors.dart';
 import 'package:flutter_application_1/features/make_review/makeReview_widgets.dart';
 import 'package:flutter_application_1/features/make_review/rating_widget.dart';
+import 'package:flutter_application_1/features/submitReview.dart/submitReviewSheet.dart';
 
 class MakeReviewPage extends StatefulWidget {
   final String productTitle;
@@ -26,12 +28,6 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
   }
 
 
-
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,24 +35,46 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         
-        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildReviewHeader(
-              context: context,
-              title: 'Review',
+            
+          Container(
+            
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: MyColors.homeBackgroundColor, 
+              // borderRadius: BorderRadius.circular(12),
             ),
 
-            const SizedBox(height: 10),
+          //  padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 30,),
+                buildReviewHeader(
+                  context: context,
+                  title: 'Review',
+                ),
 
-            buildProductImageAndTitle(
-              productImageUrl: widget.productImageUrl,
-              productTitle: widget.productTitle,
+                const SizedBox(height: 10),
+                buildProductImageAndTitle(
+                  productImageUrl: widget.productImageUrl,
+                  productTitle: widget.productTitle,
+                ),
+              ],
             ),
+          ),
 
-            const SizedBox(height: 24),
-            buildLabel("Rate the product"),
+
+      // const SizedBox(height: 24),
+Padding(
+   padding: const EdgeInsets.all(16),
+child: Column(
+   crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    
+      buildLabel("Rate the product"),
             // Star Rating Row
         StarRatingRow(
         selectedRating: selectedRating,
@@ -66,7 +84,8 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
           },);
         },),
 
-            SizedBox(height: 20,),
+        SizedBox(height: 40,),
+
 
             buildLabel("Comment"),
             buildReviewTextField(
@@ -74,14 +93,26 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
               controller: commentController,
             ),
 
-            const SizedBox(height: 24),
 
+            const SizedBox(height: 30),
             buildReviewButton(
               label: "Submit Review",
               onTap: () {
-                Navigator.pop(context);
+            //// THIS IS THE RATING AND COMMENT THAT WILL BE SUBMITTED "store it in the database"
+                 final int rating = selectedRating;
+                 final String comment = commentController.text.trim();
+
+
+              //  print('Rating: $rating');
+              //  print('Comment: $comment');
+               
+               
+                showSubmitReviewSheet(context);
+
+                // Navigator.pop(context);
               },
             ),
+ ],),)
           ],
         ),
       ),

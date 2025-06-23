@@ -15,14 +15,20 @@ class StarRatingRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(5, (index) {
-        return IconButton(
-          icon: Icon(
-          Icons.star
-        ,
-            color:  index < selectedRating ? Colors.amber :  Colors.grey ,
-            size: 32,
+        return SizedBox(
+          width: 52, 
+          height: 50, 
+
+          child: IconButton(
+            icon: Icon(
+              Icons.star,
+              color: index < selectedRating ? Colors.amber : Colors.grey,
+              size: 40, 
+            ),
+            onPressed: () => onRatingSelected(index + 1),
+            // padding: EdgeInsets.zero, 
+            // constraints: const BoxConstraints(), 
           ),
-          onPressed: () => onRatingSelected(index + 1),
         );
       }),
     );

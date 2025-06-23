@@ -9,6 +9,7 @@ import 'package:flutter_application_1/features/onBoarding/onBoarding.dart';
 import 'package:flutter_application_1/features/recomended_products/view/recommended_products_page.dart';
 import 'package:flutter_application_1/features/sign_up/view/sighUp.dart';
 import 'package:flutter_application_1/features/splash/splash.dart';
+import 'package:flutter_application_1/features/user_profile/userProfile_view.dart';
 // import 'package:flutter_application_1/features/lg_in/view/log_in.dart';
 
 
@@ -42,10 +43,14 @@ class AppRouter{
 
 
         case Routes.profile:
-        return MaterialPageRoute(builder: (_) => HomeScreen());
+        return MaterialPageRoute(builder: (_) => ProfileView());
         
         case Routes.camera:
         return MaterialPageRoute(builder: (_) => CameraPage());
+
+
+
+
 
       case Routes.review:
         return MaterialPageRoute(

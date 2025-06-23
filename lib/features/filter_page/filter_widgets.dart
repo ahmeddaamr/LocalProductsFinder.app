@@ -32,9 +32,6 @@ Widget buildFilterButtonBycategory({
 }
 
 
-
-
-
   Widget buildFilterButtonByRating({
    required String rating,
   required VoidCallback onTap,

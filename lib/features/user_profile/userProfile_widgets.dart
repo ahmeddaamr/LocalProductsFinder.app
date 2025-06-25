@@ -1,23 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/utils/colors.dart';
 import 'package:flutter_application_1/core/utils/fonts.dart';
+// import 'package:flutterrequired BuildContext context, _application_1/core, required Future<Object?> Function() onTap, required Future<Object?> Function() onTap, required Future<Object?> Function() onTap/utils/string.dart';
 
 
 Widget buildHeader({
   required BuildContext context,
-  String ? title,
+  String? title,
+ required VoidCallback onTap,
 }) {
   return Row(
-        
-        children: [
-          
-          IconButton(
-          icon: Icon(Icons.arrow_back_ios_sharp , color: MyColors.arrowColor, size: 18,),   
-          onPressed: () => Navigator.pop(context),
+    children: [
+      IconButton(
+        icon: Icon(
+          Icons.arrow_back_ios_sharp,
+          color: MyColors.arrowColor,
+          size: 18,
         ),
-        Text(title ?? '',
-             style:  TextStyle( fontFamily: MyFonts.montserratFont, fontSize: 20 , fontWeight: FontWeight.w200 , 
-              ),),],);}
+        onPressed: onTap ,
+      ),
+      Text(
+        title ?? '',
+        style: TextStyle(
+          fontFamily: MyFonts.montserratFont,
+          fontSize: 20,
+          fontWeight: FontWeight.w200,
+        ),
+      ),
+    ],
+  );
+}
+
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -83,10 +96,6 @@ Widget buildTextField({
                 highlightColor: Colors.transparent,
                 hoverColor: Colors.transparent, 
 
-                // splashColor: Colors.transparent,
-                // mouseCursor: 
-                // SystemMouseCursors.click,
-
               )
             : null,
 
@@ -133,8 +142,7 @@ Widget buildUpdateButton({
         label,
         style: TextStyle(
            fontSize: 15 , 
-          // fontFamily: 'Montserrat',
-          // fontWeight: FontWeight.w100,
+          
           color: Colors.white,),
       ),
     );

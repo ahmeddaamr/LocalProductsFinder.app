@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/utils/string.dart';
 import 'package:flutter_application_1/features/camera/view/camera_page.dart';
 import 'package:flutter_application_1/features/home/view/home_page.dart';
-import 'package:flutter_application_1/features/lg_in/view/login.dart';
+import 'package:flutter_application_1/features/lg_in/login.dart';
 import 'package:flutter_application_1/features/make_review/makeReview_view.dart';
 import 'package:flutter_application_1/features/onBoarding/onBoarding.dart';
 import 'package:flutter_application_1/features/recomended_products/view/recommended_products_page.dart';
 import 'package:flutter_application_1/features/sign_up/view/sighUp.dart';
 import 'package:flutter_application_1/features/splash/splash.dart';
+import 'package:flutter_application_1/features/userProfileOptions_page/userProfile_selection.dart';
 import 'package:flutter_application_1/features/user_profile/userProfile_view.dart';
 // import 'package:flutter_application_1/features/lg_in/view/log_in.dart';
 
@@ -47,9 +48,9 @@ class AppRouter{
         
         case Routes.camera:
         return MaterialPageRoute(builder: (_) => CameraPage());
-
-
-
+ 
+      case Routes.editProfile:
+        return MaterialPageRoute(builder: (_) => UserProfileSelection());
 
 
       case Routes.review:

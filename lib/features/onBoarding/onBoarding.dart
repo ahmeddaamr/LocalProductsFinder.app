@@ -13,6 +13,7 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   int currentIndex = 0;
+  final PageController _pageController = PageController();
 
   final List<Map<String, String>> onboardingData = [
     {
@@ -43,18 +44,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void nextScreen() async {
     if (currentIndex < onboardingData.length - 1) {
-      setState(() => currentIndex++);
+      _pageController.nextPage(
+          duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
     } else {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('seenOnboarding', false);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const HomeScreen()));
-    }
-  }
-
-  void previousScreen() {
-    if (currentIndex > 0) {
-      setState(() => currentIndex--);
     }
   }
 
@@ -68,60 +64,88 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MyColors.whiteColor,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              // Top Row (Back Arrow & Skip)
-              Row(
+        child: Column(
+          children: [
+            // Top Row (Back Arrow & Skip)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (currentIndex > 0) // Show back arrow only if index > 0
+                  if (currentIndex > 0)
                     IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_sharp, color: Color.fromARGB(255, 69, 66, 66)),
-                      onPressed: previousScreen,
+                      icon: Icon(Icons.arrow_back_ios_sharp,
+                          color: MyColors.arrowColor),
+                      onPressed: () {
+                        if (currentIndex > 0) {
+                          _pageController.previousPage(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut);
+                        }
+                      },
                     ),
-                  const Spacer(), 
+                  const Spacer(),
                   TextButton(
                     onPressed: skipOnboarding,
-                    child: const Text(
+                    child: Text(
                       "Skip",
                       style: TextStyle(
                           fontSize: 16,
-                          color: Colors.green,
+                          color: MyColors.greenColor,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
               ),
+            ),
 
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(onboardingData[currentIndex]["image"]!,
-                        height: 250),
-                    const SizedBox(height: 20),
-                    Text(
-                      onboardingData[currentIndex]["title"]!,
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      onboardingData[currentIndex]["description"]!,
-                      style: const TextStyle(fontSize: 16, color: Colors.grey),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
+            // PageView content
+            Expanded(
+              child: PageView.builder(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() => currentIndex = index);
+                },
+                itemCount: onboardingData.length,
+                itemBuilder: (context, index) {
+                  final data = onboardingData[index];
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(data["image"]!, height: 200),
+                      const SizedBox(height: 20),
+                      Text(
+                        data["title"]!,
+                        style: const TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          data["description"]!,
+                          style:
+                              const TextStyle(fontSize: 16, color: Colors.grey),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
+            ),
 
-              // Dots Indicator
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+            // ...
+            const SizedBox(height: 15),
+
+            // Dots Indicator (moved to start)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start, // <-- left-aligned
                 children: List.generate(
                   onboardingData.length,
                   (index) => Container(
@@ -137,42 +161,45 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
               ),
+            ),
 
-              const SizedBox(height: 20),
+            const SizedBox(height: 30), // optional spacing before button
 
-              // Next/Started Button (Moved to Bottom Right)
-              Padding(
-                padding:
-                    const EdgeInsets.only(bottom: 40, left: 100), // Moved right
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: ElevatedButton(
-                    onPressed: nextScreen,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: MyColors.greenColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40, vertical: 15),
+            // Next/Start Button
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton(
+                  onPressed: nextScreen,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: MyColors.greenColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          currentIndex == onboardingData.length - 1
-                              ? "Started"
-                              : "Next",
-                          style: TextStyle(color: MyColors.whiteColor),
-                        ),
-                        const SizedBox(width: 8),
-                        
-                      ],
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 15,
                     ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        currentIndex == onboardingData.length - 1
+                            ? "Started"
+                            : "Next",
+                        style: TextStyle(color: MyColors.whiteColor),
+                      ),
+                      const SizedBox(width: 8),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+
+            const SizedBox(height: 50), // add bottom space to avoid screen edge
+          ],
         ),
       ),
     );

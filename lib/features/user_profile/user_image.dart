@@ -13,7 +13,7 @@ class ProfileHeader extends StatefulWidget {
     super.key,
     required this.userName,
     this.initialImagePath,
-    this.onImageChanged,    
+    this.onImageChanged,
     this.imageRadius = 40,
     this.nameFontSize = 20,
   });
@@ -25,58 +25,50 @@ class ProfileHeader extends StatefulWidget {
 class _ProfileHeaderState extends State<ProfileHeader> {
   File? _selectedImage;
 
- Future<void> _pickImage(ImageSource source) async {
-  final pickedFile = await ImagePicker().pickImage(
-    source: source,
-    imageQuality: 75,
-  );
-
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedFile = await ImagePicker().pickImage(
+      source: source,
+      imageQuality: 75,
+    );
 
     if (pickedFile != null) {
-  setState(() {
-    _selectedImage = File(pickedFile.path);
-  });
-  widget.onImageChanged?.call(_selectedImage);
-}
-
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+      widget.onImageChanged?.call(_selectedImage);
+    }
   }
-
 
   void _showImageOptions() {
     showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
-      
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
         return Padding(
-             
           padding: const EdgeInsets.all(16.0),
           child: Wrap(
-
             children: [
-              
               ListTile(
                 leading: const Icon(Icons.photo_library),
                 title: const Text('Edit Image'),
                 onTap: () {
                   Navigator.pop(context);
-                   _pickImage(ImageSource.gallery);
+                  _pickImage(ImageSource.gallery);
                 },
               ),
               if (_selectedImage != null)
                 ListTile(
                   leading: const Icon(Icons.delete, color: Colors.red),
                   title: const Text('Delete Image'),
-                 onTap: () {
+                  onTap: () {
                     setState(() {
                       _selectedImage = null;
                     });
                     widget.onImageChanged?.call(null);
                     Navigator.pop(context);
-                
                   },
                 ),
               ListTile(
@@ -90,7 +82,6 @@ class _ProfileHeaderState extends State<ProfileHeader> {
       },
     );
   }
-
 
   void _showFullImage() {
     if (_selectedImage != null || widget.initialImagePath != null) {
@@ -141,9 +132,10 @@ class _ProfileHeaderState extends State<ProfileHeader> {
   Widget build(BuildContext context) {
     final ImageProvider imageProvider = _selectedImage != null
         ? FileImage(_selectedImage!)
-        : (widget.initialImagePath != null && widget.initialImagePath!.isNotEmpty)
+        : (widget.initialImagePath != null &&
+                widget.initialImagePath!.isNotEmpty)
             ? AssetImage(widget.initialImagePath!)
-            : const AssetImage("assets/images/user.png");
+            : const AssetImage(" ");
 
     return Column(
       children: [
@@ -156,7 +148,8 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                   radius: widget.imageRadius,
                   backgroundImage: imageProvider,
                   backgroundColor: Colors.grey.shade300,
-                  child: (widget.initialImagePath == null && _selectedImage == null)
+                  child: (widget.initialImagePath == null &&
+                          _selectedImage == null)
                       ? Text(
                           widget.userName.isNotEmpty
                               ? widget.userName[0].toUpperCase()

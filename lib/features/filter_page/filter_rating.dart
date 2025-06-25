@@ -50,8 +50,6 @@ class _RatingFilterState extends State<RatingFilter> {
             toggleRating(rating);
     
             });
-       
-      
       
       });
       },

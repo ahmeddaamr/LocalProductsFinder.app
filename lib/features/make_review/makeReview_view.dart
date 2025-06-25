@@ -17,6 +17,7 @@ class MakeReviewPage extends StatefulWidget {
   @override
   State<MakeReviewPage> createState() => _MakeReviewPageState();
 }
+
 class _MakeReviewPageState extends State<MakeReviewPage> {
   int selectedRating = 0;
   final TextEditingController commentController = TextEditingController();
@@ -27,92 +28,78 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
-          Container(
-            
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: MyColors.homeBackgroundColor, 
-              // borderRadius: BorderRadius.circular(12),
+            Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: MyColors.homeBackgroundColor,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  buildReviewHeader(
+                    context: context,
+                    title: 'Review',
+                  ),
+                  const SizedBox(height: 10),
+                  buildProductImageAndTitle(
+                    productImageUrl: widget.productImageUrl,
+                    productTitle: widget.productTitle,
+                  ),
+                ],
+              ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildLabel("Rate the product"),
+                  StarRatingRow(
+                    selectedRating: selectedRating,
+                    onRatingSelected: (value) {
+                      setState(
+                        () {
+                          selectedRating = value;
+                        },
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  buildLabel("Comment"),
+                  buildReviewTextField(
+                    hintText: "Enter here ",
+                    controller: commentController,
+                  ),
+                  const SizedBox(height: 30),
+                  buildReviewButton(
+                    label: "Submit Review",
+                    onTap: () {
+                      //// THIS IS THE RATING AND COMMENT THAT WILL BE SUBMITTED "store it in the database"
+                      final int rating = selectedRating;
+                      final String comment = commentController.text.trim();
 
-          //  padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 30,),
-                buildReviewHeader(
-                  context: context,
-                  title: 'Review',
-                ),
+                      //  print('Rating: $rating');
+                      //  print('Comment: $comment');
 
-                const SizedBox(height: 10),
-                buildProductImageAndTitle(
-                  productImageUrl: widget.productImageUrl,
-                  productTitle: widget.productTitle,
-                ),
-              ],
-            ),
-          ),
-
-
-      // const SizedBox(height: 24),
-Padding(
-   padding: const EdgeInsets.all(16),
-child: Column(
-   crossAxisAlignment: CrossAxisAlignment.start,
-  children: [
-    
-      buildLabel("Rate the product"),
-            // Star Rating Row
-        StarRatingRow(
-        selectedRating: selectedRating,
-        onRatingSelected: (value) {
-          setState(() {
-            selectedRating = value;
-          },);
-        },),
-
-        SizedBox(height: 40,),
-
-
-            buildLabel("Comment"),
-            buildReviewTextField(
-              hintText: "Enter here ",
-              controller: commentController,
-            ),
-
-
-            const SizedBox(height: 30),
-            buildReviewButton(
-              label: "Submit Review",
-              onTap: () {
-            //// THIS IS THE RATING AND COMMENT THAT WILL BE SUBMITTED "store it in the database"
-                 final int rating = selectedRating;
-                 final String comment = commentController.text.trim();
-
-
-              //  print('Rating: $rating');
-              //  print('Comment: $comment');
-               
-               
-                showSubmitReviewSheet(context);
-
-                // Navigator.pop(context);
-              },
-            ),
- ],),)
+                      showSubmitReviewSheet(context);
+                    },
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),

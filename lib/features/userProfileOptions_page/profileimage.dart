@@ -6,57 +6,43 @@ class ProfileAvatar extends StatelessWidget {
   final String? imagePath;
   final double imageRadius;
   final double nameFontSize;
-  final VoidCallback onEditTap;
 
   const ProfileAvatar({
     super.key,
     required this.userName,
     this.imagePath,
-    required this.onEditTap,
     this.imageRadius = 40,
     this.nameFontSize = 20,
   });
 
   @override
   Widget build(BuildContext context) {
-    final ImageProvider imageProvider = imagePath != null && imagePath!.isNotEmpty
-        ? (imagePath!.startsWith("/data") ? FileImage(File(imagePath!)) : AssetImage(imagePath!))
-            as ImageProvider
-        : const AssetImage("assets/images/user.png");
+    final bool isValidImage = imagePath != null && imagePath!.trim().isNotEmpty;
+    final bool isFileImage = isValidImage && imagePath!.startsWith("/data");
+
+    final ImageProvider? imageProvider = isValidImage
+        ? (isFileImage ? FileImage(File(imagePath!)) : AssetImage(imagePath!))
+        : null;
+
+    final bool hasImage = imageProvider != null;
 
     return Column(
       children: [
         Center(
-          child: Stack(
-            children: [
-              CircleAvatar(
-                radius: imageRadius,
-                backgroundImage: imageProvider,
-                backgroundColor: Colors.grey.shade300,
-                child: (imagePath == null || imagePath!.isEmpty)
-                    ? Text(
-                        userName.isNotEmpty ? userName[0].toUpperCase() : "?",
-                        style: TextStyle(
-                          fontSize: imageRadius / 1.5,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      )
-                    : null,
-              ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: GestureDetector(
-                  onTap: onEditTap,
-                  child: const Icon(
-                    Icons.camera_alt_rounded,
-                    color: Color.fromARGB(255, 53, 205, 42),
-                    size: 16,
-                  ),
-                ),
-              ),
-            ],
+          child: CircleAvatar(
+            radius: imageRadius,
+            backgroundColor: Colors.grey.shade300,
+            backgroundImage: hasImage ? imageProvider : null,
+            child: !hasImage
+                ? Text(
+                    userName.isNotEmpty ? userName[0].toUpperCase() : "?",
+                    style: TextStyle(
+                      fontSize: imageRadius / 1.5,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  )
+                : null,
           ),
         ),
         const SizedBox(height: 8),

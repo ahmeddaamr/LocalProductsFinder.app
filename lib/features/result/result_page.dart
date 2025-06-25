@@ -1,8 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/utils/colors.dart';
 import 'package:flutter_application_1/core/utils/string.dart';
-
-
 
 class ResultPage extends StatelessWidget {
   final File image;
@@ -16,20 +15,24 @@ class ResultPage extends StatelessWidget {
     this.productName,
   });
 
-
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: Center(
+  @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: MyColors.whiteColor,
+    body: SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios_new_sharp , size: 22, color: MyColors.arrowColor,),
+                onPressed: () => Navigator.pushReplacementNamed(context , Routes.camera),
+              ),
+            ),
             const SizedBox(height: 20),
             isLocal == null
                 ? Image.asset(Path.error, height: 260)
@@ -37,7 +40,6 @@ class ResultPage extends StatelessWidget {
             const SizedBox(height: 10),
 
             if (productName != null && isLocal != null)
-            
               Text(
                 productName!,
                 style: const TextStyle(
@@ -46,36 +48,38 @@ class ResultPage extends StatelessWidget {
                 ),
               ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 15),
 
             if (isLocal == null) ...[
               const Icon(
                 Icons.error_outline,
                 color: Colors.orange,
                 size: 60,
-              ), //Note:########Optional Icon########
+              ),
               const Text(
                 "Can't identify the product",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              //const Text("Please try another image"),
-            ] 
-            
-            
-            else ...[
+            ] else ...[
               Icon(
                 isLocal! ? Icons.location_on : Icons.block,
-                color: isLocal! ? Colors.green : Colors.red,
-                size: 60,
+                color: isLocal!
+                    ? Colors.green
+                    : const Color.fromARGB(255, 198, 32, 20),
+                size: 80,
               ),
+              const SizedBox(height: 10),
               Text(
                 isLocal! ? "The Product is Local" : "Not Local Product",
                 style: TextStyle(
                   fontSize: 22,
-                  color: isLocal! ? Colors.green : Colors.red,
+                  color: isLocal!
+                      ? Colors.green
+                      : const Color.fromARGB(255, 198, 32, 20),
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              const SizedBox(height: 5),
               Text(
                 isLocal!
                     ? "Feel free to use it"
@@ -83,32 +87,31 @@ class ResultPage extends StatelessWidget {
               ),
             ],
 
-            const Spacer(),
-            const SizedBox(height: 20),
+            SizedBox(height: 100,),
 
-            ElevatedButton(
-              onPressed: () {
-                 Navigator.pushReplacementNamed(context, Routes.recommendation);
-                
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 70,
-                  vertical: 15,
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(
+                      context, Routes.recommendation);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                ),
+                child: Text(
+                  isLocal == null
+                      ? "View Similar Products"
+                      : "View Recommendations",
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
-              child: Text(
-                style: TextStyle(color: Colors.white),
-                isLocal == null
-                    ? "View Similar Products"
-                    : "View Recommendations",
-              ),
             ),
-            const SizedBox(height: 120),
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }

@@ -2,38 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/utils/colors.dart';
 import 'package:flutter_application_1/core/utils/fonts.dart';
 import 'package:flutter_application_1/core/utils/string.dart';
+
 ///header
 Widget buildReviewHeader({
   required BuildContext context,
-  String ? title,
+  String? title,
 }) {
-  return 
-  // Padding(
-    // padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0), child:
-   Row(
-      //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        
-       
-        IconButton(
-          icon: Icon(Icons.arrow_back_ios_sharp , color: MyColors.arrowColor, size: 20,),
-          onPressed: () => Navigator.pop(context),
+  return Row(
+    children: [
+      IconButton(
+        icon: Icon(
+          Icons.arrow_back_ios_sharp,
+          color: MyColors.arrowColor,
+          size: 20,
         ),
-
-        // SizedBox(width: 2,),
-
-        Text(
-          title ?? '',
-          style:  TextStyle( fontFamily: MyFonts.montserratFont, fontSize: 20 , fontWeight: FontWeight.w200 , 
-              ),
+        onPressed: () {
+          if (Navigator.canPop(context)) {
+            Navigator.pop(context);
+          } else {
+            Navigator.pushReplacementNamed(context, Routes.home);
+          }
+        },
+      ),
+      Text(
+        title ?? '',
+        style: TextStyle(
+          fontFamily: MyFonts.montserratFont,
+          fontSize: 20,
+          fontWeight: FontWeight.w200,
         ),
-
-      ],
-    );
+      ),
+    ],
+  );
   // );
 }
-
-
 
 //////////////button
 Widget buildReviewButton({
@@ -42,45 +44,35 @@ Widget buildReviewButton({
 }) {
   return ElevatedButton(
     onPressed: onTap,
-
     style: ElevatedButton.styleFrom(
-            fixedSize: const Size(330, 48),
-            //maximumSize: const Size(double.infinity, 50),
-            backgroundColor: Colors.green,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
-            ),
-            // padding: const EdgeInsets.symmetric(vertical: 0),
-          ),
+      fixedSize: const Size(330, 48),
+      backgroundColor: Colors.green,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(25),
+      ),
+    ),
     child: Text(
       label,
       style: TextStyle(
-         fontFamily: MyFonts.montserratFont,
-         fontWeight: FontWeight.w100,
+        fontFamily: MyFonts.montserratFont,
+        fontWeight: FontWeight.w100,
         color: Colors.white,
         fontSize: 16,
       ),
     ),
-
-    
   );
 }
 
-/// Widget to display product image and title
 Widget buildProductImageAndTitle({
   required String productImageUrl,
   required String productTitle,
   double imageSize = 130,
   double spacing = 15,
-
 }) {
   return Column(
-    // mainAxisAlignment: MainAxisAlignment.center,
-    // crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       Center(
         child: Image.asset(
-
           productImageUrl,
           width: imageSize,
           height: imageSize,
@@ -104,15 +96,13 @@ Widget buildProductImageAndTitle({
   );
 }
 
-
-
 Widget buildReviewTextField({
   required String hintText,
   required TextEditingController controller,
 }) {
   return TextField(
     controller: controller,
-    maxLines: 5, 
+    maxLines: 5,
     decoration: InputDecoration(
       hintText: hintText,
       contentPadding: const EdgeInsets.symmetric(
@@ -120,17 +110,19 @@ Widget buildReviewTextField({
         horizontal: 20,
       ),
       hintStyle: TextStyle(
-        
         color: const Color.fromARGB(255, 159, 158, 158),
       ),
-
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20),
-        borderSide: BorderSide(color:MyColors.buttonColor,),
+        borderSide: BorderSide(
+          color: MyColors.buttonColor,
+        ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20),
-        borderSide: BorderSide(color:MyColors.buttonColor,),
+        borderSide: BorderSide(
+          color: MyColors.buttonColor,
+        ),
       ),
     ),
   );
@@ -141,26 +133,19 @@ Widget buildReviewRatingBar({
   required ValueChanged<double> onRatingUpdate,
 }) {
   return Row(
-    // mainAxisAlignment: MainAxisAlignment.center,
-    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    // crossAxisAlignment: CrossAxisAlignment.center,
     children: List.generate(5, (index) {
-      return
-      
-      
-      Padding(padding: EdgeInsets.symmetric( horizontal: 5 ),
-      child: 
-       IconButton(
-        
-        icon: Icon(
-          size: 50 , 
-          Icons.star_rate_sharp ,
-          color: index < initialRating ? Colors.grey:Colors.amber ,
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 5),
+        child: IconButton(
+          icon: Icon(
+            size: 50,
+            Icons.star_rate_sharp,
+            color: index < initialRating ? Colors.grey : Colors.amber,
+          ),
+          onPressed: () => onRatingUpdate(index + 1.0),
         ),
-        onPressed: () => onRatingUpdate(index + 1.0),
-      ),);
+      );
     }),
-  
   );
 }
 
@@ -171,7 +156,6 @@ Widget buildLabel(String text) {
       text,
       style: const TextStyle(
         fontSize: 16,
-        // fontWeight: FontWeight.bold,
         color: Colors.black,
       ),
     ),

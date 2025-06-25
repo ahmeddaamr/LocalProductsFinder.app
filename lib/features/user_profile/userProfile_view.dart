@@ -1,43 +1,56 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_application_1/core/utils/string.dart';
+import 'package:flutter_application_1/core/utils/string.dart';
 import 'package:flutter_application_1/features/make_review/makeReview_widgets.dart';
+import 'package:flutter_application_1/features/user_profile/user_model.dart';
+import 'package:flutter_application_1/features/user_profile/user_update_logic.dart';
 import 'UserProfile_widgets.dart';
 import 'user_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-// import 'package:image_picker/image_picker.dart';
+
 File? _selectedImage;
+
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
+
   @override
   State<ProfileView> createState() => _ProfileViewState();
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  Future<void> _pickImage() async {
+    final pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 70,
+    );
 
-
-Future<void> _pickImage() async {
-  final pickedFile = await ImagePicker().pickImage(
-    source: ImageSource.gallery, 
-    imageQuality: 70, 
-  );
-
-  if (pickedFile != null) {
-    setState(() {
-      _selectedImage = File(pickedFile.path);
-    });
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+    }
   }
-}
 
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController oldPasswordController = TextEditingController();
-  final TextEditingController newPasswordController = TextEditingController();
-  final TextEditingController countryController = TextEditingController();
+  ////////////////////////controllers/////////////////////
+  late TextEditingController usernameController;
+  late TextEditingController emailController;
+  late TextEditingController oldPasswordController;
+  late TextEditingController newPasswordController;
+  late TextEditingController countryController;
 
-bool obscureOld = true;
-bool obscureNew = true;
-File? selectedImage;
+  bool obscureOld = true;
+  bool obscureNew = true;
+  File? selectedImage;
+
+  @override
+  void initState() {
+    super.initState();
+    usernameController = TextEditingController(text: currentUser?.name ?? '');
+    emailController = TextEditingController(text: currentUser?.email ?? '');
+    oldPasswordController = TextEditingController();
+    newPasswordController = TextEditingController();
+    countryController = TextEditingController(text: currentUser?.country ?? '');
+  }
 
   @override
   void dispose() {
@@ -54,30 +67,28 @@ File? selectedImage;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-
-
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-
-
-
-           SizedBox(height: 20,),
-            buildHeader(context: context, title:'Profile'),
-            SizedBox(
-              height: 30,
+            const SizedBox(height: 20),
+            buildHeader(
+              context: context,
+              title: 'Profile',
+              onTap: () {
+                Navigator.pushNamed(context, Routes.editProfile).then((_) {
+                  setState(() {});
+                });
+              },
             ),
-
-        ProfileHeader(
-          userName: 'Nada Nasser',
-          onImageChanged: (image) {
-          selectedImage = image;
-          },
-        ),
-
-             SizedBox(
-              height: 40,
+            const SizedBox(height: 30),
+            ProfileHeader(
+              userName: currentUser?.name ?? '',
+              initialImagePath: currentUser?.imagePath,
+              onImageChanged: (image) {
+                selectedImage = image;
+              },
             ),
+            const SizedBox(height: 40),
             buildSectionTitle("Personal Information"),
             buildTextField(
               hintText: "User Name",
@@ -97,11 +108,10 @@ File? selectedImage;
               obscureText: obscureOld,
               togglePasswordVisibility: () {
                 setState(() {
-                  obscureOld =! obscureOld;
+                  obscureOld = !obscureOld;
                 });
               },
             ),
-
             buildTextField(
               hintText: "New Password",
               icon: Icons.lock,
@@ -114,27 +124,44 @@ File? selectedImage;
                 });
               },
             ),
-
             buildTextField(
               hintText: "Your Country",
               icon: Icons.language,
               controller: countryController,
             ),
-
-            SizedBox(
-              height: 90,
-            ),
-
+            const SizedBox(height: 90),
             buildReviewButton(
               label: "Update",
               onTap: () {
-            //TODO Back-End : update the user profile here 
-            // use this path to send image to backend >>> selectedImage?.path
-            
-          print('image: ${selectedImage?.path}');
+                final updatedUser = UserUpdateHelper.getUpdatedUser(
+                  currentUser: currentUser!,
+                  newName: usernameController.text,
+                  newEmail: emailController.text,
+                  newPassword: newPasswordController.text,
+                  newCountry: countryController.text,
+                  newImagePath: selectedImage?.path,
+                );
+                if (updatedUser != null) {
+                  setState(() {
+                    currentUser = updatedUser;
+                  });
 
-            // Navigator.pop(context);
-                          },
+                  // TODO: Call the API here to save user new  updated data by that list >>>  currentUser that carries all user info
+                 
+                  currentUser;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Changed successfully."),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("No changes made.")),
+                  );
+                  oldPasswordController.clear();
+                  newPasswordController.clear();
+                }
+              },
             ),
           ],
         ),
@@ -142,4 +169,3 @@ File? selectedImage;
     );
   }
 }
-

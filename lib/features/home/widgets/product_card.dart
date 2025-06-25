@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/utils/colors.dart';
 import 'package:flutter_application_1/core/utils/string.dart';
-
+import 'package:flutter_application_1/features/make_review/makeReview_view.dart';
+import 'package:flutter_application_1/features/reviews/reviews_page.dart';
 
 class Product {
   final String name;
@@ -19,77 +20,108 @@ final List<Product> products = [
 ];
 ////////////////////////////////////////////
 
-class ProductCard extends StatelessWidget {
+
+  @override
+ class ProductCard extends StatelessWidget {
   final Product product;
 
   const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
+   
+       return Material(
+
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(15),
+      elevation: 2,
+      child: InkWell(
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Colors.green, width: 0.8), // Green border
-        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 5)],
-      ),
-      padding: EdgeInsets.all(8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          
-          Expanded(
-            child: Center(
-              child: Image.asset( product.image , fit: BoxFit.contain), 
-            ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductReviewsPage(),
           ),
-
-          SizedBox(height: 8),
-
-          
-          Text(
-            product.name,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-
-          SizedBox(height: 5),
-
-          // Rating & Button
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.star, color: Colors.yellow, size: 16),
-                  Text(product.rating.toString(), style: TextStyle(fontSize: 12)),
-                ],
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: Colors.green, width: 0.8),
+          boxShadow: [
+            BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 5),
+          ],
+        ),
+        padding: EdgeInsets.only(top: 8 , left: 8, right: 8 , bottom: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Center(
+                child: Image.asset(product.image, fit: BoxFit.contain),
               ),
-             
-     ElevatedButton(
-  onPressed: () {
-    // TODO: Implement Add Review Logic
-  },
-  style: ElevatedButton.styleFrom(
-    backgroundColor:MyColors.greenColor,
-    foregroundColor: MyColors.whiteColor,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(20),
-    ),
-    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-  ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              product.name,
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            SizedBox(height: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.star, color: Colors.yellow, size: 16),
+                    Text(
+                      product.rating.toString(),
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 35,
+                  child :
+                ElevatedButton(
+                  
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MakeReviewPage(
+                          productTitle: product.name,
+                          productImageUrl: product.image,
+                        ),
+                      ),
+                    );
+                  },
 
-  child: Text(
-    "Add Review",
-    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-  ),
-),
-
-            ],
-          ),
-        ],
-      ),
-    );
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: MyColors.greenColor,
+                    foregroundColor: MyColors.whiteColor,
+                    elevation: 0 ,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                  ),
+                  child: Text(
+                    "Add Review",
+                    style:
+                        TextStyle(fontSize: 11, fontWeight: FontWeight.w500),
+                  ),
+                ),),
+              ],
+            ),
+          ],
+        ),
+      ),));
   }
 }
+
+

@@ -35,7 +35,7 @@ class _SplashState extends State<Splash> {
 
 
     return Scaffold(
-    backgroundColor: MyColors.backgroundColor,
+    backgroundColor: MyColors.whiteColor,
     
  body: 
  
@@ -76,7 +76,7 @@ class _SplashState extends State<Splash> {
             fontSize: 24,
             fontWeight: FontWeight.bold,
             fontFamily: MyFonts.montserratFont,
-            color: MyColors.buttonColor,
+            color: MyColors.greenColor,
             letterSpacing: 3,
           ),
           speed: Duration(milliseconds: 100),

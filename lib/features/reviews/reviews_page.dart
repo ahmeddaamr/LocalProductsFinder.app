@@ -1,233 +1,130 @@
 import 'package:flutter/material.dart';
-// import 'package:frontend/leave_review/views/leave_review_page.dart';
+import 'package:flutter_application_1/core/utils/colors.dart';
+import 'package:flutter_application_1/core/utils/string.dart';
+import 'package:flutter_application_1/features/reviews/product_info_section.dart';
+import 'package:flutter_application_1/features/reviews/review_card.dart';
+import 'package:flutter_application_1/features/make_review/makeReview_view.dart';
 
 class ProductReviewsPage extends StatelessWidget {
   final List<Map<String, dynamic>> dummyReviews = [
-    {"user": "Alice Johnson", "rating": 5, "comment": "Absolutely love it!"},
     {
-      "user": "Michael Brown",
+      "user": "Lora Stevia",
       "rating": 4,
-      "comment": "Great product, but delivery took too long.",
+      "comment":
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     },
     {
-      "user": "Sarah Lee",
-      "rating": 3,
-      "comment": "It’s okay, not the best but works fine.",
-    },
-    {
-      "user": "David Smith",
+      "user": "Lora Stevia",
       "rating": 5,
-      "comment": "Superb quality, highly recommend!",
+      "comment":
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     },
     {
-      "user": "Emma Wilson",
-      "rating": 2,
-      "comment": "Didn’t meet my expectations at all.",
+      "user": "Lora Stevia",
+      "rating": 3,
+      "comment":
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     },
     {
-      "user": "John Doe",
+      "user": "Lora Stevia",
       "rating": 1,
-      "comment": "Worst purchase ever. Do not buy.",
-    },
-    {
-      "user": "Olivia Taylor",
-      "rating": 4,
-      "comment": "Nice and useful product.",
+      "comment": "Lorem Ipsum is simply dummy text.",
     },
   ];
+
+  double _calculateAverageRating() {
+    if (dummyReviews.isEmpty) return 0;
+    double sum = dummyReviews.fold(0, (acc, review) => acc + review["rating"]);
+    return sum / dummyReviews.length;
+  }
 
   @override
   Widget build(BuildContext context) {
     double averageRating = _calculateAverageRating();
     int totalReviews = dummyReviews.length;
-    Map<int, int> ratingFrequencies = _calculateRatingFrequencies();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Reviews", style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "V Super Soda Diet Cola Can",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 16),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "    ${averageRating.toStringAsFixed(1)}",
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      _buildStarRating(averageRating),
-                      SizedBox(height: 4),
-                      Text(
-                        " $totalReviews Reviews",
-                        style: TextStyle(color: Colors.grey, fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: _buildRatingBars(ratingFrequencies, totalReviews),
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-            Divider(thickness: 1), // Adds a line before the reviews section
-            SizedBox(height: 8),
-            Text(
-              "Users' Reviews",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                itemCount: dummyReviews.length,
-                itemBuilder: (context, index) {
-                  return _buildReviewItem(dummyReviews[index]);
-                },
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  minimumSize: Size(double.infinity, 50),
-                ),
-                onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder:
-                  //         // (context) => LeaveReviewPage(
-                  //         //   imageUrl: "assets/prod1.png",
-                  //         //   description: "V Cola",
-                  //         // ),
-                  //   // ),
-                  // );
-                },
-                child: Text(
-                  "Leave a Review",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  double _calculateAverageRating() {
-    if (dummyReviews.isEmpty) return 0.0;
-    double total = dummyReviews.fold(
-      0,
-      (sum, review) => sum + review["rating"],
-    );
-    return total / dummyReviews.length;
-  }
-
-  Map<int, int> _calculateRatingFrequencies() {
-    Map<int, int> freq = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
-    for (var review in dummyReviews) {
-      int rating = review["rating"];
-      freq[rating] = (freq[rating] ?? 0) + 1;
-    }
-    return freq;
-  }
-
-  Widget _buildRatingBars(Map<int, int> frequencies, int total) {
-    return Column(
-      children: List.generate(5, (index) {
-        int star = 5 - index;
-        double percentage = total == 0 ? 0.0 : (frequencies[star]! / total);
-        return Row(
-          children: [
-            Text("$star", style: TextStyle(fontSize: 16)),
-            SizedBox(width: 8),
-            Expanded(
-              child: LinearProgressIndicator(
-                value: percentage,
-                backgroundColor: Colors.grey[300],
-                color: Colors.green,
-              ),
-            ),
-            SizedBox(width: 8),
-            Text("${frequencies[star]}", style: TextStyle(fontSize: 16)),
-          ],
-        );
-      }),
-    );
-  }
-
-  Widget _buildStarRating(double rating) {
-    int fullStars = rating.floor();
-    bool hasHalfStar = (rating - fullStars) >= 0.5;
-    return Row(
-      children: List.generate(5, (index) {
-        if (index < fullStars) {
-          return Icon(Icons.star, color: Colors.amber);
-        } else if (index == fullStars && hasHalfStar) {
-          return Icon(Icons.star_half, color: Colors.amber);
-        } else {
-          return Icon(Icons.star_border, color: Colors.amber);
-        }
-      }),
-    );
-  }
-
-  Widget _buildReviewItem(Map<String, dynamic> review) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      backgroundColor: MyColors.whiteColor,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          CircleAvatar(
-            backgroundImage: AssetImage('assets/avatar1.png'),
-            radius: 24,
+
+          SizedBox(height: 50,),
+          Align(
+            
+            alignment: Alignment.topLeft,
+            child :
+          IconButton(
+            
+            icon: Icon(
+              Icons.arrow_back_ios_new_sharp,
+              size: 22,
+              color: MyColors.arrowColor,
+            ),
+            onPressed: () {
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context);
+              } else {
+                Navigator.pushReplacementNamed(context, Routes.home);
+              }
+            },
+          ),),
+          ProductInfoSection(
+            averageRating: averageRating,
+            totalReviews: totalReviews,
           ),
-          SizedBox(width: 12),
+        
+          Padding(
+            padding: const EdgeInsets.only(left: 16 , top: 12 , bottom: 3),
+            child: Text(
+              "Users Reviews",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+          ),
+         
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  review["user"],
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                SizedBox(height: 4),
-                _buildStarRating(review["rating"].toDouble()),
-                SizedBox(height: 4),
-                Text(
-                  review["comment"],
-                  style: TextStyle(color: Colors.grey[600]),
-                ),
-              ],
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16.0),
+              itemCount: dummyReviews.length,
+              itemBuilder: (context, index) {
+                final review = dummyReviews[index];
+                return ReviewCard(
+                  userName: review["user"],
+                  rating: review["rating"],
+                  comment: review["comment"],
+                );
+              },
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green,
+            
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => MakeReviewPage(
+                  productTitle: "V Super Soda Diet Cola Can",
+                  productImageUrl: 'lib/assets/images/spiro.png',
+                ),
+              ),
+            );
+          },
+          child: const Text(
+            "Leave a Review",
+            style: TextStyle(fontSize: 16, color: Colors.white),
+          ),
+        ),
       ),
     );
   }

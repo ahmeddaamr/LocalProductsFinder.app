@@ -11,6 +11,7 @@ static const review = '/review';
 // static const welcom = '/welcom';
 static const login = "/login";
 static const signUp = "/signUp";
+static const editProfile = "/editProfile";
 }
 
 class Path

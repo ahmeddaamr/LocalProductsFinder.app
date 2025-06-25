@@ -18,7 +18,7 @@ void showSubmitReviewSheet(BuildContext context) {
       );
       },
       ).whenComplete(() {
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.pushReplacementNamed(context, Routes.home);
       });
     
   }

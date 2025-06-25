@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
                       email: "Nada123@gmail.com",
                       password: "123",
                       country: "Egypt",
-                      imagePath:" ",
+                      imagePath:null,
                     );
 // if ( pass == pass from api && email == email from api ){
 // ScaffoldMessenger.of(context).showSnackBar(
@@ -76,6 +76,7 @@ class _LoginPageState extends State<LoginPage> {
 //         ),
 //       );
 //     }
+                    
                   }),
               const SizedBox(height: 40),
               buildLine(),

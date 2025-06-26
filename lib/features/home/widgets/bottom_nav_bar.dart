@@ -10,8 +10,8 @@ class BottomNavBar extends StatelessWidget {
     required this.selectedIndex,
   });
 
-  void _onItemTapped(BuildContext context, int index) {
-    if (index == selectedIndex) return; 
+ void _onItemTapped(BuildContext context, int index) {
+    if (index == selectedIndex) return;
     switch (index) {
       case 0:
         Navigator.pushReplacementNamed(context, Routes.home);
@@ -20,9 +20,16 @@ class BottomNavBar extends StatelessWidget {
         Navigator.pushReplacementNamed(context, Routes.camera);
         break;
       case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => RecommendedProductsPage()),
+        );
+        break;
+      case 3:
         Navigator.pushReplacementNamed(context, Routes.editProfile);
         break;
     }
+  
   }
 
   @override
@@ -56,9 +63,12 @@ class BottomNavBar extends StatelessWidget {
           showUnselectedLabels: false,
           elevation: 0,
           items: const [
+           
             BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
             BottomNavigationBarItem(icon: Icon(Icons.camera_alt_rounded), label: ''),
+            BottomNavigationBarItem(icon: Icon(Icons.star_purple500_sharp), label: ''),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
+          
           ],
         ),
       ),

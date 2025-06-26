@@ -61,7 +61,7 @@ class _UserProfileSelectionState extends State<UserProfileSelection> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBar( selectedIndex: 2, ),
+      bottomNavigationBar: BottomNavBar( selectedIndex: 3, ),
     );
   }
 }

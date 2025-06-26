@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/utils/colors.dart';
+import 'package:flutter_application_1/features/home/widgets/bottom_nav_bar.dart';
 // import 'package:flutter_application_1/core/utils/fonts.dart';
 import 'package:flutter_application_1/features/recomended_products/widgets/headerWidget.dart';
 import 'package:flutter_application_1/features/recomended_products/widgets/product_card.dart';
@@ -25,6 +26,9 @@ class RecommendedProductsPage extends StatelessWidget {
   const RecommendedProductsPage({super.key});
   @override
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
       backgroundColor: MyColors.whiteColor,
       body: Column(
@@ -51,9 +55,11 @@ class RecommendedProductsPage extends StatelessWidget {
                 );
               },
             ),
+
           ),
         ],
       ),
+      bottomNavigationBar: BottomNavBar(selectedIndex: 2,),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/utils/colors.dart';
 import 'package:flutter_application_1/core/utils/string.dart';
+import 'package:flutter_application_1/features/recomended_products/view/recommended_products_page.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -11,7 +12,7 @@ class BottomNavBar extends StatelessWidget {
   });
 
   void _onItemTapped(BuildContext context, int index) {
-    if (index == selectedIndex) return; 
+    if (index == selectedIndex) return;
     switch (index) {
       case 0:
         Navigator.pushReplacementNamed(context, Routes.home);
@@ -20,6 +21,12 @@ class BottomNavBar extends StatelessWidget {
         Navigator.pushReplacementNamed(context, Routes.camera);
         break;
       case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => RecommendedProductsPage()),
+        );
+        break;
+      case 3:
         Navigator.pushReplacementNamed(context, Routes.editProfile);
         break;
     }
@@ -58,6 +65,7 @@ class BottomNavBar extends StatelessWidget {
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
             BottomNavigationBarItem(icon: Icon(Icons.camera_alt_rounded), label: ''),
+            BottomNavigationBarItem(icon: Icon(Icons.star_purple500_sharp), label: ''),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
           ],
         ),

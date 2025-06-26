@@ -41,7 +41,7 @@ class _ProfileViewState extends State<ProfileView> {
   bool obscureOld = true;
   bool obscureNew = true;
   File? selectedImage;
-
+  
   @override
   void initState() {
     super.initState();
@@ -50,6 +50,7 @@ class _ProfileViewState extends State<ProfileView> {
     oldPasswordController = TextEditingController();
     newPasswordController = TextEditingController();
     countryController = TextEditingController(text: currentUser?.country ?? '');
+  
   }
 
   @override
@@ -71,35 +72,33 @@ class _ProfileViewState extends State<ProfileView> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            buildHeader(
-              context: context,
-              title: 'Profile',
-              onTap: () {
-                Navigator.pushNamed(context, Routes.editProfile).then((_) {
-                  setState(() {});
-                });
-              },
-            ),
+            buildHeader(context: context, title: 'Profile', onTap: () { Navigator.pushReplacementNamed(context, Routes.editProfile );}),
             const SizedBox(height: 30),
+         
             ProfileHeader(
               userName: currentUser?.name ?? '',
               initialImagePath: currentUser?.imagePath,
               onImageChanged: (image) {
                 selectedImage = image;
+               
               },
             ),
+         
             const SizedBox(height: 40),
             buildSectionTitle("Personal Information"),
+         
             buildTextField(
               hintText: "User Name",
               icon: Icons.person,
               controller: usernameController,
             ),
+         
             buildTextField(
               hintText: "Email",
               icon: Icons.language,
               controller: emailController,
             ),
+         
             buildTextField(
               hintText: "Old Password",
               icon: Icons.lock_outline,
@@ -112,6 +111,7 @@ class _ProfileViewState extends State<ProfileView> {
                 });
               },
             ),
+
             buildTextField(
               hintText: "New Password",
               icon: Icons.lock,
@@ -130,39 +130,52 @@ class _ProfileViewState extends State<ProfileView> {
               controller: countryController,
             ),
             const SizedBox(height: 90),
-            buildReviewButton(
-              label: "Update",
-              onTap: () {
-                final updatedUser = UserUpdateHelper.getUpdatedUser(
-                  currentUser: currentUser!,
-                  newName: usernameController.text,
-                  newEmail: emailController.text,
-                  newPassword: newPasswordController.text,
-                  newCountry: countryController.text,
-                  newImagePath: selectedImage?.path,
-                );
-                if (updatedUser != null) {
-                  setState(() {
-                    currentUser = updatedUser;
-                  });
+           buildReviewButton(
+  label: "Update",
+ onTap: () {
 
-                  // TODO: Call the API here to save user new  updated data by that list >>>  currentUser that carries all user info
-                 
-                  currentUser;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Changed successfully."),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("No changes made.")),
-                  );
-                  oldPasswordController.clear();
-                  newPasswordController.clear();
-                }
-              },
-            ),
+  final updatedUser = UserUpdateHelper.getUpdatedUser(
+    currentUser: currentUser!,
+    newName: usernameController.text,
+    newEmail: emailController.text,
+    newPassword: newPasswordController.text,
+    newCountry: countryController.text,
+    newImagePath: selectedImage?.path, 
+  );
+  if (updatedUser != null) {
+    setState(() {
+      currentUser = updatedUser;
+    
+    
+    
+    });
+    
+    // TODO: Call the API here to save user new  updated data by that list >>>  currentUser that carries all user info 
+
+
+
+ ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Changed successfully."),
+        
+      ),
+    );
+
+  } else {
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("No changes made.")),
+    );
+oldPasswordController.clear();
+newPasswordController.clear();
+  }
+
+
+},
+
+
+),
+
           ],
         ),
       ),

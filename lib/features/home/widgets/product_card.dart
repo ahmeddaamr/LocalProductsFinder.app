@@ -16,7 +16,9 @@ final List<Product> products = [
   Product(name: "Big Chips Salt & Vinegar", image: Path.chips, rating: 4.2),
   Product(name: "Corona Milk Hazelnut", image: Path.corona, rating: 4.5),
   Product(name: "Molto Mini Magnum", image: Path.molto, rating: 3.4),
-  Product(name: "Molto Mini Magnum", image: Path.spiro, rating: 3.4),
+  Product(name: "Spiro Spat", image: Path.spiro, rating: 3.4),
+  Product(name: "Corona Milk Hazelnut", image: Path.corona, rating: 4.5),
+  Product(name: "Molto Mini Magnum", image: Path.molto, rating: 3.4),
 ];
 ////////////////////////////////////////////
 
@@ -76,7 +78,7 @@ final List<Product> products = [
               children: [
                 Row(
                   children: [
-                    Icon(Icons.star, color: Colors.yellow, size: 16),
+                    Icon(Icons.star, color: const Color.fromARGB(255, 255, 231, 16), size: 16),
                     Text(
                       product.rating.toString(),
                       style: TextStyle(fontSize: 12),

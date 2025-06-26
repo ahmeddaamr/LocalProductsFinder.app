@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/utils/string.dart';
 import 'package:flutter_application_1/features/submitReview.dart/submitReviewForm.dart';
 
 void showSubmitReviewSheet(BuildContext context) {
@@ -18,7 +19,7 @@ void showSubmitReviewSheet(BuildContext context) {
       );
       },
       ).whenComplete(() {
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.pushReplacementNamed(context, Routes.home);
       });
     
   }

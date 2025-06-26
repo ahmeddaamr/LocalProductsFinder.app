@@ -46,14 +46,6 @@ class _LoginPageState extends State<LoginPage> {
                       return;
                     }
 
-                    // ENTER USER INFO HERE AFTER CHECkING 
-                    currentUser = UserModel(
-                      name: "Nada Nasser Mostafa",
-                      email: "Nada123@gmail.com",
-                      password: "123",
-                      country: "Egypt",
-                      imagePath:" ",
-                    );
 // if ( pass == pass from api && email == email from api ){
 // ScaffoldMessenger.of(context).showSnackBar(
 //         const SnackBar(
@@ -61,7 +53,15 @@ class _LoginPageState extends State<LoginPage> {
 //     backgroundColor: Color.fromARGB(255, 76, 223, 74),
 //         ),
 //       );
-
+                    // ENTER USER INFO HERE AFTER CHECkING 
+                    currentUser = UserModel(
+                      name: "Nada Nasser Mostafa",
+                      email: "Nada123@gmail.com",
+                      password: "123",
+                      country: "Egypt",
+                      imagePath:null,
+                    );
+                   
                     if (widget.isNewUser) {
                       Navigator.pushReplacementNamed(context, Routes.onBording);
                     } else {

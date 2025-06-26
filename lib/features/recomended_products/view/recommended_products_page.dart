@@ -54,6 +54,7 @@ class RecommendedProductsPage extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: BottomNavBar(selectedIndex: 2,),
     );
   }
 }

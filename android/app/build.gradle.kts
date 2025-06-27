@@ -8,7 +8,10 @@ plugins {
 android {
     namespace = "com.example.localproductsfinder"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    // ndkVersion = flutter.ndkVersion
+    ndkVersion ="27.0.12077973"
+    // ndkVersion ="26.3.11579264"
+
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

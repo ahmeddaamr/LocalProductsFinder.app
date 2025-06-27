@@ -39,6 +39,7 @@ dependencies:
   string_similarity: ^2.1.1
   fuzzy: ^0.5.1
   provider: ^6.1.2
+  flutter_secure_storage: ^9.2.4
   
 
 
@@ -96,18 +97,22 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
   assets:
-      - lib/assets/products.json
-      #- images/Group_2_1.png
-      - lib/assets/images/logo.svg
-      - lib/assets/images/Group 2 (1).png
-      - lib/assets/images/Local Product Finder.png
-      - lib/assets/images/corona.png
-      - lib/assets/images/spiro.png
-      - lib/assets/images/chips.png
-      - lib/assets/images/molto.png
-      - lib/assets/images/filter.png
-      - lib/assets/images/Layer_1.png
-      - lib/assets/images/error.png
+    #- images/Group_2_1.png
+    - lib/assets/images/logo.svg
+    - lib/assets/images/Group 2 (1).png
+    - lib/assets/images/Local Product Finder.png
+    - lib/assets/images/corona.png
+    - lib/assets/images/spiro.png
+    - lib/assets/images/chips.png
+    - lib/assets/images/molto.png
+    - lib/assets/images/filter.png
+    - lib/assets/images/Layer_1.png
+    - lib/assets/images/error.png
+    - lib/assets/images/onBoarding1.png
+    - lib/assets/images/onBoarding2.png
+    - lib/assets/images/onBoarding3.png
+    - lib/assets/images/onBoarding4.png 
+    - lib/assets/images/OBJECTS (3).png    
   fonts:
    - family: Montserrat
      fonts:

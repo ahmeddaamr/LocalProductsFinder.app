@@ -50,12 +50,12 @@ class _HomeScreenState extends State<HomeScreen> {
             if (futureProducts != null) // ✅ Ensure futureProducts is initialized
               HomeHeader(futureProducts: futureProducts!), 
             
-            const SizedBox(height: 10 , width: 20,),
-          
-            const Padding(
-               padding: EdgeInsets.only(left: 20), 
-               child: FiltersButton(), 
-               ),
+            // HomeHeader(onSearchChanged: updateSearch),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: FiltersButton(),
+            ),
                
             const SizedBox(height: 10),
             Expanded(
@@ -81,9 +81,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     itemCount: products.length,
                     itemBuilder: (context, index) {
-                      final random = Random();
-                      int randomIndex = random.nextInt(products.length);
-                      return ProductCard(product: products[randomIndex]);
+                      // final random = Random();
+                      // int randomIndex = random.nextInt(products.length);
+                      // return ProductCard(product: products[randomIndex]);
+                      return ProductCard(product: products[index]);
                     },
                   );
                 },
@@ -92,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBar(),
+      bottomNavigationBar: BottomNavBar(selectedIndex: 0,),
     );
   }
 }

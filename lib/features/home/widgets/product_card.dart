@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 // import 'package:localproductsfinder/core/utils/colors.dart';
 // import 'package:localproductsfinder/core/utils/string.dart';
 import 'package:localproductsfinder/core/models/product.dart';  // ✅ Import common Product model
-
+import 'package:localproductsfinder/features/make_review/makeReview_view.dart'; // ✅ Import MakeReviewPage
+import 'package:localproductsfinder/core/const/config.dart';
+import 'package:localproductsfinder/features/reviews/reviews_page.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -11,7 +13,22 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Material(
+
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(15),
+      elevation: 2,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(15),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductReviewsPage(product: product),
+          ),
+        );
+      },
+      child: Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
@@ -57,6 +74,14 @@ class ProductCard extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   // TODO: Implement Add Review Logic
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MakeReviewPage(
+                          product: product
+                        ),
+                      ),
+                    );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
@@ -75,6 +100,9 @@ class ProductCard extends StatelessWidget {
           ),
         ],
       ),
+    ),
+    ),
     );
   }
 }
+

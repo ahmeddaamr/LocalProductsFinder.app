@@ -55,10 +55,11 @@ class _CameraPageState extends State<CameraPage> {
         context,
         MaterialPageRoute(
           builder: (context) => ResultPage(
-            image: _image!,
-            isLocal:  (jsonResponse['local'] == 'Yes'?true:false),
-            productName: jsonResponse['predicted_label'],
-            productId: jsonResponse['product_id'],
+            // image: _image!,
+            // isLocal:  (jsonResponse['local'] == 'Yes'?true:false),
+            // productName: jsonResponse['predicted_label'],
+            // productId: jsonResponse['product_id'],
+            product:jsonResponse,
           ),
         ),
       );
@@ -78,10 +79,11 @@ class _CameraPageState extends State<CameraPage> {
         context,
         MaterialPageRoute(
           builder: (context) => ResultPage(
-            image: _image!,
-            isLocal:  (jsonResponse['local'] == 'Yes'?true:false),
-            productName: jsonResponse['predicted_label'],
-            productId: jsonResponse['product_id'],
+            // image: _image!,
+            // isLocal:  (jsonResponse['local'] == 'Yes'?true:false),
+            // productName: jsonResponse['predicted_label'],
+            // productId: jsonResponse['product_id'],
+            product: jsonResponse,
           ),
         ),
       );

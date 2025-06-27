@@ -52,9 +52,9 @@ import 'package:localproductsfinder/core/utils/string.dart';
 //   return Row(
 //     children: [
 //       GestureDetector(
-//         onTap: () {
-//           Navigator.pop(context);
-//         },
+//         // onTap: () {
+//         //   Navigator.pop(context);
+//         // },
 
 //         child: Icon(
 //           Icons.arrow_back_ios_new_outlined,
@@ -86,18 +86,8 @@ Widget buildPageHeader
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const SizedBox(height: 30), 
-      Row(
-        children: [
-          IconButton(
-            iconSize: 20,
-            color: MyColors.arrowColor,
-            icon: const Icon(Icons.arrow_back_ios_new_sharp),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
-      ),
-      const SizedBox(height: 30),
+      const SizedBox(height: 110), 
+      
       Center(
         child: Image.asset(
           Path.logo2, 
@@ -113,7 +103,7 @@ Widget buildPageHeader
           fontWeight: FontWeight.bold,
         ),
       ),),
-      const SizedBox(height: 10),
+      const SizedBox(height: 12),
     ],
   );
 }
@@ -126,20 +116,22 @@ Widget buildTextField(String hintText
   {
 return Padding(
     padding: const EdgeInsets.all(8),
+  
     child:
-    SizedBox(
-
+  SizedBox(
   height: 50.0,
     child: TextField(
       controller: Controller,
       obscureText: obscureText,
      
       decoration: InputDecoration(
+  
         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         hintStyle: TextStyle(color: MyColors.arrowColor, fontSize: 13),
         hintText: hintText,
         filled: true,
         fillColor: MyColors.loginInputColor,
+        
         border: OutlineInputBorder(
           
           borderRadius: BorderRadius.circular(30),
@@ -165,8 +157,8 @@ Widget buildMainButton({
           style: 
           ElevatedButton.styleFrom(
             fixedSize: const Size(330, 48),
-            //maximumSize: const Size(double.infinity, 50),
-            backgroundColor: Colors.green,
+
+            backgroundColor:MyColors.greenColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
@@ -175,17 +167,12 @@ Widget buildMainButton({
           child: Text(buttonText , style: TextStyle(color: MyColors.whiteColor,fontSize: 12),
         ),
       ),),
-      // if (linkedText != null && linkedActionText != null)
+
        
     ],
   );
 }
-/////////////////////////////////
-///
-///
-///
-///
-///
+
 Widget buildLine(
 ){
 return 

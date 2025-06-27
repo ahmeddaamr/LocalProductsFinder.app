@@ -6,7 +6,9 @@ import 'package:localproductsfinder/core/utils/colors.dart';
 import 'package:localproductsfinder/core/utils/fonts.dart';
 import 'package:localproductsfinder/features/recomended_products/widgets/product_card.dart';
 import 'package:localproductsfinder/core/utils/string.dart';
-
+import 'package:localproductsfinder/features/home/widgets/bottom_nav_bar.dart';
+import 'package:localproductsfinder/features/recomended_products/widgets/headerWidget.dart';
+import 'package:localproductsfinder/core/models/product.dart';
 class RecommendedProductsPage extends StatelessWidget {
   final int productId; 
 
@@ -34,25 +36,23 @@ class RecommendedProductsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyColors.whiteColor,
-      appBar: AppBar(
         backgroundColor: MyColors.whiteColor,
-        title: Text(
-          "Recommended Similar Products",
-          style: TextStyle(
-            fontFamily: MyFonts.montserratFont,
-            color: MyColors.fontColor,
-            fontSize: 15,
-          ),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_sharp, color: MyColors.arrowColor),
-          onPressed: () => Navigator.pushReplacementNamed(context, Routes.home),
-        ),
-      ),
+      body: Column(
+        children: [
+          buildCustomHeader(
+              context: context,
+              title: 'Recommended Similar Products',
+              onBack: () {
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.pushReplacementNamed(context, Routes.camera);
+                }
+              }),
+          
 
       // ✅ Fix: Use `FutureBuilder` correctly
-      body: FutureBuilder<List<Map<String, dynamic>>>(
+      FutureBuilder<List<Map<String, dynamic>>>(
         future: recommend(productId), // ✅ Remove `await` (pass future directly)
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -67,13 +67,28 @@ class RecommendedProductsPage extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             itemCount: recommendedProducts.length,
             itemBuilder: (context, index) {
+              final product = Product(
+                productId: int.tryParse(recommendedProducts[index]["Product ID"]?.toString() ?? '') ?? 0,
+                name: recommendedProducts[index]["Product Description"] ?? 'Unknown Product',
+                category: recommendedProducts[index]["Product Category"] ?? 'Unknown Category',
+                subcategory: recommendedProducts[index]["Sub-Category"] ?? 'Unknown Subcategory',
+                isLocal: recommendedProducts[index]["Local"] ?? "cannot identify",
+                rating: double.tryParse(recommendedProducts[index]["average_rating"]?.toString() ?? '') ?? 0,
+                ratings_count: int.tryParse(recommendedProducts[index]["rating_count"]?.toString() ?? '') ?? 0,
+              );
               return ProductCard(
-                imageUrl: '${config.URI}/image/${recommendedProducts[index]["Product Category"]}/${recommendedProducts[index]["Product ID"]}', // ✅ Use dynamic image
-                title: recommendedProducts[index]["Product Description"]!,
+                // imageUrl: product.imageUrl,
+                // title: product.name,
+                // ratee: product.rating,
+                product: product,
               );
             },
           );
         },
+      ),
+      ],
+      ),
+      bottomNavigationBar: BottomNavBar(selectedIndex: 2,productId: productId, // Pass productId to BottomNavBar if needed
       ),
     );
   }

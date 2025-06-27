@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:localproductsfinder/core/utils/colors.dart';
 import 'package:localproductsfinder/core/utils/string.dart';
-import 'package:localproductsfinder/features/shared_widgets/sign_up_and_log_in.dart';
+import 'package:localproductsfinder/features/shared_widgets/sighn_up&log_in.dart';
+import 'package:localproductsfinder/core/storage/storage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:localproductsfinder/core/const/config.dart';
+import 'package:localproductsfinder/features/user_profile/user_model.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,11 +16,32 @@ class LoginPage extends StatefulWidget {
 }
 
 
+
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  // final url = config.URI+'/user/login';
+  Future<Map<String, dynamic>?> loginUser(String email, String password) async {
+  final response = await http.post(
+    Uri.parse('${config.URI}/user/login'),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({'email': email, 'password': password}),
+  );
+
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body);
+    return {
+      'token': data['token'],
+      'user': data['user'],
+    };
+  } else {
+    print('Login failed: ${response.body}');
+    return null;
+  }
+}
+
   
-  @override
+  // @override
   // Widget build(BuildContext context) {
   //   // TODO: implement build
   //   throw UnimplementedError();
@@ -57,48 +83,61 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 60),
               buildMainButton(
                 buttonText:'Log in',
-                onPressed:  () {
-                  //TODO : "Back-End"  check before navigation//
+                onPressed:  () async {
+                  if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Please fill in all fields.')),
+                    );
+                    return;
+                  }
+                  try {
+                    final result = await loginUser(_emailController.text, _passwordController.text);
+                    
+                    if (result != null) {
+                      final token = result['token'] as String;
+                      final userData = result['user'] as Map<String, dynamic>;
 
-                  // if( checkLogin(_emailController.text, _passwordController.text)) {
-                  // if  new user              
-                  // Navigator.pushReplacementNamed(context, Routes.onBording);
-                  // else existing user
+                      await saveToken(token);
+                      
+                      currentUser = UserModel(
+                        name: userData['username'],
+                        email: userData['email'],
+                        password: _passwordController.text,  // Or store null for security if you don’t need it
+                        country: userData['country'],
+                        imagePath: null,  // You can adjust this if you have image in response
+                      );
 
-                  Navigator.pushReplacementNamed(context, Routes.home);
+                      Navigator.pushReplacementNamed(context, Routes.home);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Invalid credentials')),
+                      );
+                    }
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Login error: $e')),
+                    );
+                  }
                 }
               ),
-const SizedBox(height: 40),
-buildLine(),
-const SizedBox(height: 40),
- buildSocialButtons(
-            onFacebookPressed: () {
-              // TODO: Implement Facebook sign up logic
-
-
-            },
+                const SizedBox(height: 40),
+                buildLine(),
+                const SizedBox(height: 40),
+                buildSocialButtons(
+            onFacebookPressed: () {},
             onGooglePressed: () {
-              // TODO: Implement Google sign up logic
-
-
-
+              // saveToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjg1YmU3MzQ0MmRiMjdkMjlmYjk0MjdjIn0.0QRrqvjUqxXtZEKP8ap1QLLkDG_6B1DtzR2CJw4vXeM")
+              Navigator.pushReplacementNamed(context, Routes.home);
             },
-            // onEmailPressed: () {
-            //   // TODO: Implement Email sign up logic
-
-
-
-              
-            // },
           ),
-const SizedBox(height: 30),
-buildLinkedText(
-  linkedText: "Don't have an account?",
-  linkedActionText: 'Sign up',
-  onLinkTap: () {
-    Navigator.pushReplacementNamed(context, Routes.signUp);
-  },
-),
+          const SizedBox(height: 30),
+          buildLinkedText(
+            linkedText: "Don't have an account?",
+            linkedActionText: 'Sign up',
+            onLinkTap: () {
+              Navigator.pushReplacementNamed(context, Routes.signUp);
+            },
+          ),
 
             ],
           ),

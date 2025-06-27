@@ -11,14 +11,13 @@ class Splash extends StatefulWidget {
   State<Splash> createState() => _SplashState();
 }
 
-
 class _SplashState extends State<Splash> {
   @override
 
   void initState(){
     super.initState();
 
-   Timer(const Duration(seconds: 3),(){
+   Timer(Duration(seconds: 3),(){
    
      Navigator.pushReplacementNamed(context, Routes.login);
    });
@@ -29,7 +28,6 @@ class _SplashState extends State<Splash> {
 
 
 
-  @override
   Widget build(BuildContext context) {
 
     // double screenWidth = MediaQuery.of(context).size.width;
@@ -37,7 +35,7 @@ class _SplashState extends State<Splash> {
 
 
     return Scaffold(
-    backgroundColor: MyColors.backgroundColor,
+    backgroundColor: MyColors.whiteColor,
     
  body: 
  
@@ -69,7 +67,7 @@ class _SplashState extends State<Splash> {
       ),
     ),
 
-    const SizedBox(height: 5),
+    SizedBox(height: 5),
     AnimatedTextKit(
       animatedTexts: [
         TyperAnimatedText(
@@ -78,10 +76,10 @@ class _SplashState extends State<Splash> {
             fontSize: 24,
             fontWeight: FontWeight.bold,
             fontFamily: MyFonts.montserratFont,
-            color: MyColors.buttonColor,
+            color: MyColors.greenColor,
             letterSpacing: 3,
           ),
-          speed: const Duration(milliseconds: 100),
+          speed: Duration(milliseconds: 100),
         ),
       ],
       isRepeatingAnimation: false,

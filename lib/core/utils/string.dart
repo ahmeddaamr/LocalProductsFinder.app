@@ -7,10 +7,11 @@ static const camera = '/camera';
 static const favorit = '/favorit';
 static const profile = '/profil';
 static const recommendation = '/recommendation';
+static const review = '/review';
 // static const welcom = '/welcom';
 static const login = "/login";
 static const signUp = "/signUp";
-
+static const editProfile = "/editProfile";
 }
 
 class Path
@@ -21,7 +22,7 @@ class Path
   static const chips = "lib/assets/images/chips.png";
   static const molto = "lib/assets/images/molto.png";
   static const spiro = "lib/assets/images/spiro.png";
-  static const corona ="http://127.0.0.1:5000/image/24_1.jpg";
+  static const corona ="lib/assets/images/corona.png";
   static const filter = "lib/assets/images/filter.png";
   static const image = "lib/assets/images/Layer_1.png";
   static const error = "lib/assets/images/error.png";
@@ -29,4 +30,5 @@ class Path
   static const onBoarding2 = "lib/assets/images/onBoarding2.png";
   static const onBoarding3 = "lib/assets/images/onBoarding3.png";
   static const onBoarding4 = "lib/assets/images/onBoarding4.png";
+  static const Thanks = "lib/assets/images/OBJECTS (3).png";
 }

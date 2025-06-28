@@ -20,16 +20,16 @@ class Product {
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
-    final random = Random();
-    double rawRating = 1 + random.nextDouble() * 4;
-    double roundedRating = double.parse(rawRating.toStringAsFixed(1));
+    // final random = Random();
+    // double rawRating = 1 + random.nextDouble() * 4;
+    // double roundedRating = double.parse(rawRating.toStringAsFixed(1));
 
     return Product(
       productId: json['Product ID'] != null ? int.parse(json['Product ID'].toString()): 0, // ✅ Prevent null values
       name: json['Product Description'] ?? 'Unknown Product', // ✅ Use default value
       category: json['Product Category'] ?? 'Unknown Category', // ✅ Use default value
       subcategory: json['Sub-Category'] ?? 'Unknown Subcategory', // ✅ Use default value
-      isLocal: json['local'] ?? "Cannot identify", // ✅ Use default value for isLocal
+      isLocal: json['Local'] , // ✅ Use default value for isLocal
       rating: json['average_rating'] != null
           ? double.parse(json['average_rating'].toStringAsFixed(1)) // ✅ Ensure rating is a double
           : 0,

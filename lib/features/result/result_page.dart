@@ -36,14 +36,25 @@ Widget build(BuildContext context) {
               ),
             ),
             const SizedBox(height: 20),
-            product.isLocal == null
+            product.isLocal == "Unknown"
                 ? Image.asset(Path.error, height: 260)
-                : Image.file(File(product.imageUrl), height: 220, width: 220),
+                : Image.network(
+                  product.imageUrl, // ✅ Load images dynamically on scroll
+                  height: 250,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return const Center(child: CircularProgressIndicator()); // ✅ Show loader while loading
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(Icons.broken_image, size: 50, color: Colors.red); // ✅ Handle missing images
+                  },
+                ),
             const SizedBox(height: 10),
 
-            if (product.name != null && product.isLocal != null)
+            // if (product.name !="Couldn't Identify Image" && product.isLocal != "Unknown")
+            if (product.isLocal != "Unknown")
               Text(
-                product.name!,
+                product.name,
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -52,27 +63,31 @@ Widget build(BuildContext context) {
 
             const SizedBox(height: 15),
 
-            if (product.isLocal == null) ...[
+            if (product.isLocal == "Unknown") ...[
               const Icon(
                 Icons.error_outline,
                 color: Colors.orange,
                 size: 60,
               ),
               const Text(
-                "Can't identify the product",
+                "Couldn't Identify Image",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
             ] else ...[
               Icon(
-                product.isLocal == "Yes" ? Icons.location_on : Icons.block,
-                color: product.isLocal == "Yes"
+                product.isLocal == 'Yes' ? Icons.location_on : Icons.block,
+                color: product.isLocal == 'Yes'
                     ? Colors.green
                     : const Color.fromARGB(255, 198, 32, 20),
                 size: 80,
               ),
               const SizedBox(height: 10),
               Text(
-                product.isLocal == "Yes" ? "The Product is Local" : "Not Local Product",
+                product.isLocal == "Yes"
+                    ? "The Product is Local"
+                    : product.isLocal == "No"
+                        ? "Not Local Product"
+                        : "Product is Unknown",
                 style: TextStyle(
                   fontSize: 22,
                   color: product.isLocal == "Yes"
@@ -103,7 +118,7 @@ Widget build(BuildContext context) {
                   backgroundColor: Colors.green,
                 ),
                 child: Text(
-                  product.isLocal == null
+                  product.isLocal == "Unkown"
                       ? "View Similar Products"
                       : "View Recommendations",
                   style: const TextStyle(color: Colors.white),

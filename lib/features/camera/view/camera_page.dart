@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:localproductsfinder/features/result/result_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:localproductsfinder/core/const/config.dart';
+import 'package:localproductsfinder/core/models/product.dart';
 
 
 class CameraPage extends StatefulWidget {
@@ -29,11 +30,12 @@ class _CameraPageState extends State<CameraPage> {
       var responseBody = await response.stream.bytesToString();
 
       if (response.statusCode == 200) {
-        print("✅ Image uploaded successfully!");
-        print(response);
-        return jsonDecode(responseBody);
+          print("✅ Image uploaded successfully!");
+          print(response);
+          final json = jsonDecode(responseBody);
+          return Product.fromJson(json); // Assuming Product.fromJson is defined to parse the response
       } else {
-        print("Failed to upload image: ${response.statusCode}"); 
+          print("Failed to upload image: ${response.statusCode}"); 
       }
     } catch (e) {
       print("Error uploading image: $e"); 
@@ -49,8 +51,8 @@ class _CameraPageState extends State<CameraPage> {
         _image = File(pickedFile.path);
         // print(pickedFile.path);
       });
-      var jsonResponse = await predict(_image!);
-      print(jsonResponse);
+      var product = await predict(_image!);
+      print(product);
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -59,7 +61,7 @@ class _CameraPageState extends State<CameraPage> {
             // isLocal:  (jsonResponse['local'] == 'Yes'?true:false),
             // productName: jsonResponse['predicted_label'],
             // productId: jsonResponse['product_id'],
-            product:jsonResponse,
+            product:product,
           ),
         ),
       );
@@ -73,7 +75,7 @@ class _CameraPageState extends State<CameraPage> {
         _image = File(pickedFile.path);
       });
 
-      var jsonResponse = await predict(_image!);
+      var product = await predict(_image!);
 
       Navigator.push(
         context,
@@ -83,7 +85,7 @@ class _CameraPageState extends State<CameraPage> {
             // isLocal:  (jsonResponse['local'] == 'Yes'?true:false),
             // productName: jsonResponse['predicted_label'],
             // productId: jsonResponse['product_id'],
-            product: jsonResponse,
+            product: product,
           ),
         ),
       );

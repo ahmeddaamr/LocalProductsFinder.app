@@ -25,7 +25,7 @@ class ProductRatings{
       rating: (json['rating'] is int)
           ? (json['rating'] as int).toDouble()
           : (json['rating'] ?? 0.0),
-      comment: json['review'] ?? json['comment'] ?? '',
+      comment: json['review'] ,
       createdAt: DateTime.tryParse(json['timestamp'] ?? json['createdAt'] ?? '') ?? DateTime.now(),
     );
   }

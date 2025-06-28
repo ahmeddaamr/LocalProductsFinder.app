@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                         name: userData['username'],
                         email: userData['email'],
                         password: _passwordController.text,  // Or store null for security if you don’t need it
-                        country: userData['country'],
+                        country: userData['country']??'Egypt',
                         imagePath: null,  // You can adjust this if you have image in response
                       );
 

@@ -79,7 +79,24 @@ class _HomeHeaderState extends State<HomeHeader> {
     return RichText(text: TextSpan(children: spans));
   }
 
-  @override
+  // @override
+  // Widget build(BuildContext context) {
+  //   double screenWidth = MediaQuery.of(context).size.width;
+  //   double screenHeight = MediaQuery.of(context).size.height;
+
+  //   return Padding(
+  //     padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+  //     child: Column(
+  //       children: [
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.start,
+  //           children: [
+  //             SizedBox(height: screenHeight * 0.09, width: 30, child: Image.asset(Path.logo2)),
+  //           ],
+  //         ),
+  //         SizedBox(height: screenHeight * 0.02),
+
+          @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -91,51 +108,52 @@ class _HomeHeaderState extends State<HomeHeader> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: screenHeight * 0.09, width: 50, child: Image.asset(Path.logo2)),
+              SizedBox(
+                height: screenHeight * 0.09,
+                child: Image.asset(Path.logo2),
+                width: 30,
+                
+              ),
             ],
           ),
           SizedBox(height: screenHeight * 0.02),
-
-          // ✅ Search Bar with Expansion
-          GestureDetector(
-            onTap: () => setState(() => _isExpanded = true), // Expand on tap
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: 300),
-              width: _isExpanded ? screenWidth * 0.9 : screenWidth * 0.6, // Expand when active
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-                boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 10)],
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                        hintText: "Search for a Product",
-                        prefixIcon: Icon(Icons.search),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.clear),
-                          onPressed: () {
-                            _searchController.clear();
-                            _filterProducts('');
-                            setState(() => _isExpanded = false); // Collapse search box when cleared
-                          },
-                        ),
-                        border: InputBorder.none,
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(30),
+              boxShadow: [
+                BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 10),
+              ],
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _searchController,
+                    // onChanged: onSearchChanged,
+                    decoration: InputDecoration(
+                      hintText: "Search for a Product",
+                      prefixIcon: const Icon(Icons.search),
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.camera_alt),
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            Routes.camera,
+                          );
+                        },
                       ),
-                      onChanged: _filterProducts,
+                      border: InputBorder.none,
                     ),
+                     onChanged: _filterProducts,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
 
-          // ✅ Display filtered products
-          if (_filteredProducts.isNotEmpty)
+ if (_filteredProducts.isNotEmpty)
             Container(
               height: screenHeight * 0.3,
               decoration: BoxDecoration(
@@ -150,11 +168,12 @@ class _HomeHeaderState extends State<HomeHeader> {
                   var product = _filteredProducts[index];
                   return ListTile(
                     title: _highlightText(product.name, _searchController.text),
-                    subtitle: Text('Category: ${product.category}'),
+                    subtitle: Text('Category: ${product.name}'),
                   );
                 },
               ),
             ),
+
         ],
       ),
     );

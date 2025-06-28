@@ -10,13 +10,11 @@ import 'package:localproductsfinder/features/make_review/makeReview_widgets.dart
 import 'package:localproductsfinder/features/make_review/rating_widget.dart';
 import 'package:localproductsfinder/features/submitReview.dart/submitReviewSheet.dart';
 import 'package:localproductsfinder/core/models/product.dart';
+
 class MakeReviewPage extends StatefulWidget {
   final Product product;
 
-  const MakeReviewPage({
-    Key? key,
-    required this.product,
-  }) : super(key: key);
+  const MakeReviewPage({Key? key, required this.product}) : super(key: key);
 
   @override
   State<MakeReviewPage> createState() => _MakeReviewPageState();
@@ -42,19 +40,12 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
           children: [
             Container(
               padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: MyColors.homeBackgroundColor,
-              ),
+              decoration: BoxDecoration(color: MyColors.homeBackgroundColor),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 30,
-                  ),
-                  buildReviewHeader(
-                    context: context,
-                    title: 'Review',
-                  ),
+                  SizedBox(height: 30),
+                  buildReviewHeader(context: context, title: 'Review'),
                   const SizedBox(height: 10),
                   buildProductImageAndTitle(
                     productImageUrl: widget.product.imageUrl,
@@ -72,16 +63,12 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
                   StarRatingRow(
                     selectedRating: selectedRating,
                     onRatingSelected: (value) {
-                      setState(
-                        () {
-                          selectedRating = value;
-                        },
-                      );
+                      setState(() {
+                        selectedRating = value;
+                      });
                     },
                   ),
-                  SizedBox(
-                    height: 40,
-                  ),
+                  SizedBox(height: 40),
                   buildLabel("Comment"),
                   buildReviewTextField(
                     hintText: "Enter here ",
@@ -90,7 +77,7 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
                   const SizedBox(height: 30),
                   buildReviewButton(
                     label: "Submit Review",
-                    onTap: () async{
+                    onTap: () async {
                       //// THIS IS THE RATING AND COMMENT THAT WILL BE SUBMITTED "store it in the database"
                       final int rating = selectedRating;
                       final String comment = commentController.text.trim();
@@ -99,40 +86,46 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
                       //  print('Comment: $comment');
                       try {
                         // Assuming you have a function to submit the review
-                        
+
                         // await submitReview(widget.product.id, rating, comment);
                         final response = await http.post(
-                          Uri.parse('${config.URI}/rating/add/${widget.product.productId}'),
+                          Uri.parse(
+                            '${config.URI}/rating/add/${widget.product.productId}',
+                          ),
                           headers: {
                             'Content-Type': 'application/json',
-                            "Authorization": 'Bearer ${await Storage.readToken()}'
+                            "Authorization":
+                                'Bearer ${await Storage.readToken()}',
                           },
                           body: jsonEncode({
                             'rating': rating,
                             'comment': comment,
-                          })
+                          }),
                         );
-                        if(response.statusCode == 201) {
+                        if (response.statusCode == 201) {
                           // Handle success
                           print('Review submitted successfully');
                           showSubmitReviewSheet(context);
                         } else {
                           // Handle error
-                          throw Exception('Failed to submit review : ${response.headers['error']}');
+                          throw Exception(
+                            'Failed to submit review : ${response.headers['error']}',
+                          );
                         }
                         // Show success message or navigate back
                       } catch (e) {
                         // Handle error
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Failed to submit review: $e')),
+                          SnackBar(
+                            content: Text('Failed to submit review: $e'),
+                          ),
                         );
                       }
-
                     },
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

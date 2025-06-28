@@ -1,14 +1,19 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:localproductsfinder/core/const/config.dart';
+// import 'package:localproductsfinder/core/storage/storage.dart' as Storage;
 import 'package:localproductsfinder/core/utils/string.dart';
 import 'package:localproductsfinder/features/home/widgets/bottom_nav_bar.dart';
-import 'package:localproductsfinder/features/login/view/login.dart';
+// import 'package:localproductsfinder/features/login/view/login.dart';
 import 'package:localproductsfinder/features/userProfileOptions_page/profileimage.dart';
 import 'package:localproductsfinder/features/userProfileOptions_page/selection%20widgets.dart';
 import 'package:localproductsfinder/features/user_profile/UserProfile_widgets.dart';
 import 'package:localproductsfinder/features/user_profile/userProfile_view.dart';
 import 'package:localproductsfinder/features/user_profile/user_model.dart';
 import 'package:localproductsfinder/core/storage/storage.dart';
+// import 'package:http/http.dart';
 // import 'package:localproductsfinder/shared/globals.dart';
 
 class UserProfileSelection extends StatefulWidget {
@@ -30,7 +35,13 @@ class _UserProfileSelectionState extends State<UserProfileSelection> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            buildHeader(context: context, title: 'Profile' , onTap: () { Navigator.pushReplacementNamed(context, Routes.home );} ),
+            buildHeader(
+              context: context,
+              title: 'Profile',
+              onTap: () {
+                Navigator.pushReplacementNamed(context, Routes.home);
+              },
+            ),
             const SizedBox(height: 30),
             ProfileAvatar(
               userName: currentUser?.name ?? '',
@@ -52,16 +63,44 @@ class _UserProfileSelectionState extends State<UserProfileSelection> {
             buildProfileOption(
               icon: Icons.logout,
               label: "Log out ?",
-              onTap: () =>{
-                deleteToken(),
-                Navigator.pushReplacementNamed(context, Routes.login)
+              onTap: () async {
+                try {
+                  final response = await http.delete(
+                    Uri.parse('${config.URI}/user/logout'),
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': 'Bearer ${await readToken()}',
+                    },
+                  );
+
+                  if (response.statusCode == 204 ||
+                      response.statusCode == 200) {
+                    await deleteToken();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Logged out successfully')),
+                    );
+                    Navigator.pushReplacementNamed(context, Routes.login);
+                  } else {
+                    final body = jsonDecode(response.body);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Failed to log out: ${body['error'] ?? 'Unknown error'}',
+                        ),
+                      ),
+                    );
+                  }
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Failed to log out: $e')),
+                  );
+                }
               },
             ),
-            
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBar( selectedIndex: 3, ),
+      bottomNavigationBar: BottomNavBar(selectedIndex: 3),
     );
   }
 }

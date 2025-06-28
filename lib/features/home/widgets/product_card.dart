@@ -68,7 +68,7 @@ class ProductCard extends StatelessWidget {
               Row(
                 children: [
                   const Icon(Icons.star, color: Colors.yellow, size: 16),
-                  Text(product.rating.toString(), style: const TextStyle(fontSize: 12)),
+                  Text(product.rating !=0 ?product.rating.toString():'', style: const TextStyle(fontSize: 12)),
                 ],
               ),
               ElevatedButton(

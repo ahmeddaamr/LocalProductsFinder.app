@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:localproductsfinder/core/const/config.dart';
+import 'package:localproductsfinder/core/storage/storage.dart';
 import 'package:localproductsfinder/core/utils/string.dart';
 import 'package:localproductsfinder/features/make_review/makeReview_widgets.dart';
 import 'package:localproductsfinder/features/user_profile/user_model.dart';
@@ -132,7 +137,7 @@ class _ProfileViewState extends State<ProfileView> {
             const SizedBox(height: 90),
             buildReviewButton(
               label: "Update",
-              onTap: () {
+              onTap: () async {
                 final updatedUser = UserUpdateHelper.getUpdatedUser(
                   currentUser: currentUser!,
                   newName: usernameController.text,
@@ -141,19 +146,52 @@ class _ProfileViewState extends State<ProfileView> {
                   newCountry: countryController.text,
                   newImagePath: selectedImage?.path,
                 );
+
                 if (updatedUser != null) {
                   setState(() {
                     currentUser = updatedUser;
                   });
 
-                  // TODO: Call the API here to save user new  updated data by that list >>>  currentUser that carries all user info
-                 
-                  currentUser;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Changed successfully."),
-                    ),
-                  );
+                  try {
+                    final response = await http.put(
+                      Uri.parse('${config.URI}/user/update'),
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ${await readToken()}',
+                      },
+                      body: jsonEncode({
+                        "email": currentUser!.email,
+                        "username": currentUser!.name,
+                        "new_password":
+                            newPasswordController.text.isNotEmpty
+                                ? newPasswordController.text
+                                : null,
+                        "old_password":
+                            oldPasswordController.text.isNotEmpty
+                                ? oldPasswordController.text
+                                : null,
+                        "country": currentUser!.country,
+                      }),
+                    );
+
+                    if (response.statusCode == 200) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Changed successfully.")),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "Update failed: ${jsonDecode(response.body)['error'] ?? 'Unknown error'}",
+                          ),
+                        ),
+                      );
+                    }
+                  } catch (e) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text("Update error: $e")));
+                  }
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("No changes made.")),

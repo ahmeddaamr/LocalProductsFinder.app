@@ -81,10 +81,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     itemCount: products.length,
                     itemBuilder: (context, index) {
-                      // final random = Random();
-                      // int randomIndex = random.nextInt(products.length);
-                      // return ProductCard(product: products[randomIndex]);
-                      return ProductCard(product: products[index]);
+                      final random = Random();
+                      int randomIndex = random.nextInt(products.length);
+                      return ProductCard(product: products[randomIndex]);
+                      // return ProductCard(product: products[randomindex]);
                     },
                   );
                 },

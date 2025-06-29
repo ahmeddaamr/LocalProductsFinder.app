@@ -6,6 +6,7 @@ import 'package:localproductsfinder/core/const/config.dart';
 // import 'package:localproductsfinder/core/storage/storage.dart' as Storage;
 import 'package:localproductsfinder/core/utils/string.dart';
 import 'package:localproductsfinder/features/home/widgets/bottom_nav_bar.dart';
+import 'package:localproductsfinder/features/reviewsHistory/view/reviewHistoryView.dart';
 // import 'package:localproductsfinder/features/login/view/login.dart';
 import 'package:localproductsfinder/features/userProfileOptions_page/profileimage.dart';
 import 'package:localproductsfinder/features/userProfileOptions_page/selection%20widgets.dart';
@@ -57,6 +58,16 @@ class _UserProfileSelectionState extends State<UserProfileSelection> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const ProfileView()),
+                );
+              },
+            ),
+            buildProfileOption(
+              icon: Icons.history, 
+              label: "Review History", 
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ReviewHistoryPage()),
                 );
               },
             ),

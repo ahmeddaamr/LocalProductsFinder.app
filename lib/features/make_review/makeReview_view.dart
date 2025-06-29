@@ -104,7 +104,7 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
                         );
                         if (response.statusCode == 201) {
                           // Handle success
-                          print('Review submitted successfully');
+                          print('Review submitted successfully rating:$rating,comment:$comment');
                           showSubmitReviewSheet(context);
                         } else {
                           // Handle error
@@ -117,7 +117,7 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
                         // Handle error
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Failed to submit review: $e'),
+                            content: Text('Failed to submit review: $e /n rating:$rating,comment:$comment'),
                           ),
                         );
                       }

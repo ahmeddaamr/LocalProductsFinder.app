@@ -76,6 +76,21 @@ import 'package:flutter_application_1/core/utils/string.dart';
 //     ],
 //   );
 // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ///////////////////header/////////////////////////
 Widget buildPageHeader
 
@@ -141,6 +156,51 @@ return Padding(
     ),),
   );
 }
+////////////////////////////////////
+
+
+Widget buildCountryDropdown(
+  TextEditingController controller,
+  List<String> countries,
+) {
+  return Padding(
+    padding: const EdgeInsets.all(8),
+    child: SizedBox(
+      height: 50.0,
+      child: DropdownButtonFormField<String>(
+        value: controller.text.isNotEmpty ? controller.text : null,
+        onChanged: (value) {
+          controller.text = value!;
+        },
+        decoration: InputDecoration(
+           contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16 , ),
+          hintText: 'Country',
+          hintStyle: TextStyle(color: MyColors.arrowColor, fontSize: 13),
+
+          filled: true,
+          fillColor: MyColors.loginInputColor,
+
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide.none,
+          ),
+
+        ),
+        icon: const Icon(Icons.arrow_drop_down),
+        dropdownColor: Colors.white,      
+        menuMaxHeight: 200,        
+        items: countries
+            .map((country) => DropdownMenuItem<String>(
+                  value: country,
+                  child: Text(country, style: const TextStyle(fontSize: 13)),
+                ))
+            .toList(),
+      ),
+    ),
+  );
+}
+
+
 
 /////////////////////////////////////////////button ///////////////////////
 Widget buildMainButton({

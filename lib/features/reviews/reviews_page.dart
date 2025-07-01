@@ -4,45 +4,32 @@ import 'package:flutter_application_1/core/utils/string.dart';
 import 'package:flutter_application_1/features/reviews/product_info_section.dart';
 import 'package:flutter_application_1/features/reviews/review_card.dart';
 import 'package:flutter_application_1/features/make_review/makeReview_view.dart';
+import 'package:flutter_application_1/core/models/product.dart';
+import 'package:flutter_application_1/core/models/ratings.dart';
+import 'package:flutter_application_1/core/const/config.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 
 class ProductReviewsPage extends StatelessWidget {
-  final List<Map<String, dynamic>> dummyReviews = [
-    {
-      "user": "Lora Stevia",
-      "rating": 4,
-      "comment":
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    },
-    {
-      "user": "Lora Stevia",
-      "rating": 5,
-      "comment":
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    },
-    {
-      "user": "Lora Stevia",
-      "rating": 3,
-      "comment":
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    },
-    {
-      "user": "Lora Stevia",
-      "rating": 1,
-      "comment": "Lorem Ipsum is simply dummy text.",
-    },
-  ];
+  final Product product;
+  const ProductReviewsPage({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
 
-  double _calculateAverageRating() {
-    if (dummyReviews.isEmpty) return 0;
-    double sum = dummyReviews.fold(0, (acc, review) => acc + review["rating"]);
-    return sum / dummyReviews.length;
+  Future<List<ProductRatings>> getProductRatings(productId) async {
+    final response = await http.get(Uri.parse('${config.URI}/rating/get/$productId'));
+    final data = jsonDecode(response.body);
+    return ProductRatings.parseResponse(data);
   }
-
-  @override
+@override
   Widget build(BuildContext context) {
-    double averageRating = _calculateAverageRating();
-    int totalReviews = dummyReviews.length;
-
+    // double averageRating = _calculateAverageRating();
+    // int totalReviews = dummyReviews.length;
+    // Future <List<ProductRatings>> reviews = getProductRatings(product.productId);
+    // double averageRating = product.rating ;
+    // int totalReviews = product.ratings_count;
     return Scaffold(
       backgroundColor: MyColors.whiteColor,
       body: Column(
@@ -70,8 +57,9 @@ class ProductReviewsPage extends StatelessWidget {
             },
           ),),
           ProductInfoSection(
-            averageRating: averageRating,
-            totalReviews: totalReviews,
+            // averageRating: averageRating,
+            // totalReviews: totalReviews,
+            product: product,
           ),
         
           Padding(
@@ -83,15 +71,29 @@ class ProductReviewsPage extends StatelessWidget {
           ),
          
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(16.0),
-              itemCount: dummyReviews.length,
-              itemBuilder: (context, index) {
-                final review = dummyReviews[index];
-                return ReviewCard(
-                  userName: review["user"],
-                  rating: review["rating"],
-                  comment: review["comment"],
+            child: FutureBuilder<List<ProductRatings>>(
+              future: getProductRatings(product.productId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No reviews yet.'));
+                }
+                final reviews = snapshot.data!;
+                return ListView.builder(
+                  padding: const EdgeInsets.all(16.0),
+                  itemCount: reviews.length,
+                  itemBuilder: (context, index) {
+                    final review = reviews[index];
+                    return ReviewCard(
+                      // userName: review.userId.toString(),
+                      // rating: review.rating.round(),
+                      // comment: review.comment,
+                      productRating: review,
+                    );
+                  },
                 );
               },
             ),
@@ -114,8 +116,10 @@ class ProductReviewsPage extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (_) => MakeReviewPage(
-                  productTitle: "V Super Soda Diet Cola Can",
-                  productImageUrl: 'lib/assets/images/spiro.png',
+                  // Replace with actual product data
+                  // productTitle: "V Super Soda Diet Cola Can",
+                  // productImageUrl: 'lib/assets/images/spiro.png',
+                  product: product,
                 ),
               ),
             );

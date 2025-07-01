@@ -72,12 +72,19 @@ Widget buildProductImageAndTitle({
   return Column(
     children: [
       Center(
-        child: Image.asset(
-          productImageUrl,
+        child: Image.network(
+          productImageUrl, // ✅ Load images dynamically on scroll
           width: imageSize,
           height: imageSize,
-          fit: BoxFit.cover,
+          // fit: BoxFit.cover,
           alignment: Alignment.center,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return const Center(child: CircularProgressIndicator()); // ✅ Show loader while loading
+          },
+          errorBuilder: (context, error, stackTrace) {
+            return const Icon(Icons.broken_image, size: 50, color: Colors.red); // ✅ Handle missing images
+          },
         ),
       ),
       SizedBox(height: spacing),

@@ -34,7 +34,62 @@ Widget buildHeader({
 
 ///////////////////////////////////////////////////////////////////////
 
+Widget buildCountryDropdownField({
+  required IconData icon,
+  required TextEditingController controller,
+  required List<String> countries,
+}) {
+  
+  final uniqueCountries = countries.toSet().toList();
 
+ 
+  if (controller.text.isNotEmpty &&
+      !uniqueCountries.contains(controller.text)) {
+    uniqueCountries.add(controller.text);
+  }
+
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8),
+    child: SizedBox(
+      height: 45,
+      child: DropdownButtonFormField<String>(
+        value: controller.text.isNotEmpty ? controller.text : null,
+        onChanged: (value) {
+          controller.text = value!;
+        },
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+          hintText: "Country",
+          prefixIcon: Icon(icon),
+          filled: true,
+          fillColor: Colors.grey.shade200,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide.none,
+          ),
+          hintStyle: const TextStyle(
+            fontSize: 14,
+            color: Colors.black87,
+          ),
+        ),
+        icon: const Icon(Icons.arrow_drop_down),
+        dropdownColor: Colors.white,
+        menuMaxHeight: 200,
+        items: uniqueCountries
+            .map((country) => DropdownMenuItem<String>(
+                  value: country,
+                  child: Text(
+                    country,
+                    style: const TextStyle(fontSize: 13, color: Colors.black),
+                  ),
+                ))
+            .toList(),
+      ),
+    ),
+  );
+}
+
+/////////////////////////////////////
 Widget buildSectionTitle(String title) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 8.0),

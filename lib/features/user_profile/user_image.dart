@@ -84,7 +84,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
   }
 
   void _showFullImage() {
-    if (_selectedImage != null || widget.initialImagePath != null||_selectedImage !=" ") {
+    if (_selectedImage != null || widget.initialImagePath != null) {
       showDialog(
         context: context,
         builder: (_) => Dialog(

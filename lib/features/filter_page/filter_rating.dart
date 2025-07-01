@@ -1,6 +1,7 @@
+// 📁 filter_rating.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/features/filter_page/filter_lists.dart';
-import 'package:flutter_application_1/features/filter_page/filter_widgets.dart';
+import 'filter_lists.dart';
+import 'filter_widgets.dart';
 
 class RatingFilter extends StatefulWidget {
   @override
@@ -8,7 +9,6 @@ class RatingFilter extends StatefulWidget {
 }
 
 class _RatingFilterState extends State<RatingFilter> {
-  
   late List<String> selectedRatings;
 
   @override
@@ -43,15 +43,8 @@ class _RatingFilterState extends State<RatingFilter> {
         return buildFilterButtonByRating(
           rating: rating,
           selected: isSelected,
-          onTap: () { 
-            
-            setState(() {
-           
-            toggleRating(rating);
-    
-            });
-      
-      });
+          onTap: () => toggleRating(rating),
+        );
       },
     );
   }

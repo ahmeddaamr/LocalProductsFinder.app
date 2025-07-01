@@ -1,18 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_application_1/core/const/config.dart';
+// import 'package:flutter_application_1/core/storage/storage.dart';
+import 'package:flutter_application_1/core/storage/storage.dart' as Storage;
 import 'package:flutter_application_1/core/utils/colors.dart';
 import 'package:flutter_application_1/features/make_review/makeReview_widgets.dart';
 import 'package:flutter_application_1/features/make_review/rating_widget.dart';
 import 'package:flutter_application_1/features/submitReview.dart/submitReviewSheet.dart';
+import 'package:flutter_application_1/core/models/product.dart';
 
 class MakeReviewPage extends StatefulWidget {
-  final String productTitle;
-  final String productImageUrl;
+  final Product product;
 
-  const MakeReviewPage({
-    Key? key,
-    required this.productTitle,
-    required this.productImageUrl,
-  }) : super(key: key);
+  const MakeReviewPage({Key? key, required this.product}) : super(key: key);
 
   @override
   State<MakeReviewPage> createState() => _MakeReviewPageState();
@@ -38,23 +40,16 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
           children: [
             Container(
               padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: MyColors.homeBackgroundColor,
-              ),
+              decoration: BoxDecoration(color: MyColors.homeBackgroundColor),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 30,
-                  ),
-                  buildReviewHeader(
-                    context: context,
-                    title: 'Review',
-                  ),
+                  SizedBox(height: 30),
+                  buildReviewHeader(context: context, title: 'Review'),
                   const SizedBox(height: 10),
                   buildProductImageAndTitle(
-                    productImageUrl: widget.productImageUrl,
-                    productTitle: widget.productTitle,
+                    productImageUrl: widget.product.imageUrl,
+                    productTitle: widget.product.name,
                   ),
                 ],
               ),
@@ -68,16 +63,12 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
                   StarRatingRow(
                     selectedRating: selectedRating,
                     onRatingSelected: (value) {
-                      setState(
-                        () {
-                          selectedRating = value;
-                        },
-                      );
+                      setState(() {
+                        selectedRating = value;
+                      });
                     },
                   ),
-                  SizedBox(
-                    height: 40,
-                  ),
+                  SizedBox(height: 40),
                   buildLabel("Comment"),
                   buildReviewTextField(
                     hintText: "Enter here ",
@@ -86,20 +77,55 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
                   const SizedBox(height: 30),
                   buildReviewButton(
                     label: "Submit Review",
-                    onTap: () {
+                    onTap: () async {
                       //// THIS IS THE RATING AND COMMENT THAT WILL BE SUBMITTED "store it in the database"
                       final int rating = selectedRating;
                       final String comment = commentController.text.trim();
-
+                      //TODO: Implement the logic to submit the review
                       //  print('Rating: $rating');
                       //  print('Comment: $comment');
+                      try {
+                        // Assuming you have a function to submit the review
 
-                      showSubmitReviewSheet(context);
+                        // await submitReview(widget.product.id, rating, comment);
+                        final response = await http.post(
+                          Uri.parse(
+                            '${config.URI}/rating/add/${widget.product.productId}',
+                          ),
+                          headers: {
+                            'Content-Type': 'application/json',
+                            "Authorization":
+                                'Bearer ${await Storage.readToken()}',
+                          },
+                          body: jsonEncode({
+                            'rating': rating,
+                            'comment': comment,
+                          }),
+                        );
+                        if (response.statusCode == 201) {
+                          // Handle success
+                          print('Review submitted successfully');
+                          showSubmitReviewSheet(context);
+                        } else {
+                          // Handle error
+                          throw Exception(
+                            'Failed to submit review : ${response.headers['error']}',
+                          );
+                        }
+                        // Show success message or navigate back
+                      } catch (e) {
+                        // Handle error
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Failed to submit review: $e'),
+                          ),
+                        );
+                      }
                     },
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

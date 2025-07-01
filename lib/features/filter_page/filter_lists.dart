@@ -3,8 +3,12 @@ class FilterData {
 
 //TODO: retrieve these lists from the back-end
 
-  static List<String> categories = ["cat1","cat2", "cat3", "cat4", "cat5"];
-  static List<String> subCategories = ["subcat1", "subcat2", "subcat3", "subcat4", "subcat5"];
+  static List<String> categories = ["Beverages", "Dairy", "Snacks"];
+
+  static Map<String, List<String>> categoryToSubCategories = {
+      "Beverages": ["Energy Drink", "Ice Coffee", "Juice", "Powder Juice", "Soft Drinks"],
+      "Dairy": ["Butter", "Cheese", "Dessert", "Milk", "Yogurt", "Yogurt Drink"],
+      "Snacks": ["Baked Snacks", "Biscuits", "Cake", "Candy", "Chips", "Chocolote", "Croissants", "Gums & Mints", "Tortilla Chips", "Wafers"],};
   static List<String> ratings = ["1", "2", "3", "4", "5"];
 /////////////////////////////////////////////////
 ///

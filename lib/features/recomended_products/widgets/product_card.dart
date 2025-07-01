@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/utils/colors.dart';
-import 'package:flutter_application_1/core/utils/string.dart';
+// import 'package:flutter_application_1/core/utils/string.dart';
 import 'package:flutter_application_1/features/reviews/reviews_page.dart';
 import 'rating_widget.dart';
+import 'package:flutter_application_1/core/models/product.dart';
 
 class ProductCard extends StatefulWidget {
-  final String imageUrl;
-  final String title;
   final double height;
-  final double ratee ;
+  final Product product;
   const ProductCard({
     super.key,
-    required this.imageUrl,
-    required this.title,
-    required this.ratee ,   
+    required this.product,
     this.height = 140, 
   });
 
@@ -67,10 +64,19 @@ class _ProductCardState extends State<ProductCard> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    widget.imageUrl,
+                  Image.network(
+                    widget.product.imageUrl, // ✅ Load images dynamically on scroll
                     width: 100,
                     height: 100,
+                    // fit: BoxFit.cover,
+                    alignment: Alignment.center,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return const Center(child: CircularProgressIndicator()); // ✅ Show loader while loading
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(Icons.broken_image, size: 50, color: Colors.red); // ✅ Handle missing images
+                    },
                   ),
                   const SizedBox(width: 15),
                   Expanded(
@@ -79,12 +85,12 @@ class _ProductCardState extends State<ProductCard> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          widget.title,
+                          widget.product.name,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 12),
                         ),
                         const SizedBox(height: 6),
-                         RatingWidget(rate: 4.5),
+                        RatingWidget(rate: widget.product.rating),
                         const SizedBox(height: 6),
                         Row(
                           children: [
@@ -107,7 +113,7 @@ class _ProductCardState extends State<ProductCard> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          ProductReviewsPage(),
+                                          ProductReviewsPage(product: widget.product),
                                     ),
                                   );
                                 },

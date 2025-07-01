@@ -32,3 +32,37 @@ class Path
   static const onBoarding4 = "lib/assets/images/onBoarding4.png";
   static const Thanks = "lib/assets/images/OBJECTS (3).png";
 }
+
+
+const List<String> countriesList = [
+  'Egypt',
+  'Saudi Arabia',
+  'United Arab Emirates',
+  'Algeria',
+  'Bahrain',
+  'Comoros',
+  'Djibouti',
+  'Iraq',
+  'Jordan',
+  'Kuwait',
+  'Lebanon',
+  'Libya',
+  'Mauritania',
+  'Morocco',
+  'Oman',
+  'Palestine',
+  'Qatar',
+  'Somalia',
+  'Sudan',
+  'Syria',
+  'Tunisia',
+  'Yemen',
+  'USA',
+  'Germany',
+  'France',
+  'Italy',
+  'India',
+  'Japan',
+  'Canada',
+];
+

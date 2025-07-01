@@ -1,38 +1,20 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter_application_1/core/utils/colors.dart';
+// import 'package:flutter_application_1/core/utils/string.dart';
+import 'package:flutter_application_1/core/models/product.dart';  // ✅ Import common Product model
 import 'package:flutter_application_1/core/utils/colors.dart';
-import 'package:flutter_application_1/core/utils/string.dart';
-import 'package:flutter_application_1/features/make_review/makeReview_view.dart';
+import 'package:flutter_application_1/features/make_review/makeReview_view.dart'; // ✅ Import MakeReviewPage
+import 'package:flutter_application_1/core/const/config.dart';
 import 'package:flutter_application_1/features/reviews/reviews_page.dart';
 
-class Product {
-  final String name;
-  final String image;
-  final double rating;
-
-  Product({required this.name, required this.image, required this.rating});
-}
-
-final List<Product> products = [
-  Product(name: "Big Chips Salt & Vinegar", image: Path.chips, rating: 4.2),
-  Product(name: "Corona Milk Hazelnut", image: Path.corona, rating: 4.5),
-  Product(name: "Molto Mini Magnum", image: Path.molto, rating: 3.4),
-  Product(name: "Spiro Spat", image: Path.spiro, rating: 3.4),
-  Product(name: "Corona Milk Hazelnut", image: Path.corona, rating: 4.5),
-  Product(name: "Molto Mini Magnum", image: Path.molto, rating: 3.4),
-];
-////////////////////////////////////////////
-
-
-  @override
- class ProductCard extends StatelessWidget {
+class ProductCard extends StatelessWidget {
   final Product product;
 
   const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
-   
-       return Material(
+    return Material(
 
       color: Colors.white,
       borderRadius: BorderRadius.circular(15),
@@ -43,60 +25,66 @@ final List<Product> products = [
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProductReviewsPage(),
+            builder: (context) => ProductReviewsPage(product: product),
           ),
         );
       },
       child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.green, width: 0.8),
-          boxShadow: [
-            BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 5),
-          ],
-        ),
-        padding: EdgeInsets.only(top: 8 , left: 8, right: 8 , bottom: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+        border: Border.all(color: Colors.green, width: 0.8),
+        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 5)],
+      ),
+       padding: EdgeInsets.only(top: 8 , left: 8, right: 8 , bottom: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: Center(
-                child: Image.asset(product.image, fit: BoxFit.contain),
+              child: Image.network(
+                product.imageUrl, // ✅ Load images dynamically on scroll
+                fit: BoxFit.contain,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const Center(child: CircularProgressIndicator()); // ✅ Show loader while loading
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.broken_image, size: 50, color: Colors.red); // ✅ Handle missing images
+                },
               ),
             ),
-            SizedBox(height: 8),
-            Text(
-              product.name,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.star, color: const Color.fromARGB(255, 255, 231, 16), size: 16),
-                    Text(
-                      product.rating.toString(),
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ],
-                ),
-                SizedBox(
+          ),
+          const SizedBox(height: 8),
+          Text(
+            product.name,
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 5),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.star, color: Colors.yellow, size: 16),
+                  Text(product.rating !=0 ?product.rating.toString():'', style: const TextStyle(fontSize: 12)),
+                ],
+              ),
+
+ SizedBox(
                   height: 35,
                   child :
                 ElevatedButton(
                   
                   onPressed: () {
-                    Navigator.pushReplacement(
+                
+                       Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => MakeReviewPage(
-                          productTitle: product.name,
-                          productImageUrl: product.image,
+                          product: product
                         ),
                       ),
                     );
@@ -126,4 +114,45 @@ final List<Product> products = [
   }
 }
 
+
+
+
+
+
+
+
+//               ElevatedButton(
+//                 onPressed: () {
+//                   // TODO: Implement Add Review Logic
+//                   Navigator.pushReplacement(
+//                       context,
+//                       MaterialPageRoute(
+//                         builder: (context) => MakeReviewPage(
+//                           product: product
+//                         ),
+//                       ),
+//                     );
+//                 },
+//                 style: ElevatedButton.styleFrom(
+//                   backgroundColor: Colors.green,
+//                   foregroundColor: Colors.white,
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(20),
+//                   ),
+//                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+//                 ),
+//                 child: const Text(
+//                   "Add Review",
+//                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     ),
+//     ),
+//     );
+//   }
+// }
 

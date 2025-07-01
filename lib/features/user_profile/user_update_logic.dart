@@ -1,4 +1,4 @@
-import 'user_model.dart';
+import 'package:flutter_application_1/features/user_profile/user_model.dart';
 
 class UserUpdateHelper {
   static UserModel? getUpdatedUser({

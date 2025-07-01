@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/utils/string.dart';
 import 'package:flutter_application_1/features/make_review/makeReview_widgets.dart';
+import 'package:flutter_application_1/features/user_profile/userProfile_widgets.dart';
 import 'package:flutter_application_1/features/user_profile/user_model.dart';
 import 'package:flutter_application_1/features/user_profile/user_update_logic.dart';
-import 'UserProfile_widgets.dart';
+// import 'UserProfile_widgets.dart';
 import 'user_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -41,7 +42,7 @@ class _ProfileViewState extends State<ProfileView> {
   bool obscureOld = true;
   bool obscureNew = true;
   File? selectedImage;
-  
+
   @override
   void initState() {
     super.initState();
@@ -50,7 +51,6 @@ class _ProfileViewState extends State<ProfileView> {
     oldPasswordController = TextEditingController();
     newPasswordController = TextEditingController();
     countryController = TextEditingController(text: currentUser?.country ?? '');
-  
   }
 
   @override
@@ -72,33 +72,35 @@ class _ProfileViewState extends State<ProfileView> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            buildHeader(context: context, title: 'Profile', onTap: () { Navigator.pushReplacementNamed(context, Routes.editProfile );}),
+            buildHeader(
+              context: context,
+              title: 'Profile',
+              onTap: () {
+                Navigator.pushNamed(context, Routes.editProfile).then((_) {
+                  setState(() {});
+                });
+              },
+            ),
             const SizedBox(height: 30),
-         
             ProfileHeader(
               userName: currentUser?.name ?? '',
               initialImagePath: currentUser?.imagePath,
               onImageChanged: (image) {
                 selectedImage = image;
-               
               },
             ),
-         
             const SizedBox(height: 40),
             buildSectionTitle("Personal Information"),
-         
             buildTextField(
               hintText: "User Name",
               icon: Icons.person,
               controller: usernameController,
             ),
-         
             buildTextField(
               hintText: "Email",
               icon: Icons.language,
               controller: emailController,
             ),
-         
             buildTextField(
               hintText: "Old Password",
               icon: Icons.lock_outline,
@@ -111,7 +113,6 @@ class _ProfileViewState extends State<ProfileView> {
                 });
               },
             ),
-
             buildTextField(
               hintText: "New Password",
               icon: Icons.lock,
@@ -124,58 +125,44 @@ class _ProfileViewState extends State<ProfileView> {
                 });
               },
             ),
-            buildTextField(
-              hintText: "Your Country",
-              icon: Icons.language,
-              controller: countryController,
-            ),
+            buildCountryDropdownField(
+                icon: Icons.location_on_outlined,
+                controller: countryController,
+                countries: countriesList),
             const SizedBox(height: 90),
-           buildReviewButton(
-  label: "Update",
- onTap: () {
+            buildReviewButton(
+              label: "Update",
+              onTap: () {
+                final updatedUser = UserUpdateHelper.getUpdatedUser(
+                  currentUser: currentUser!,
+                  newName: usernameController.text,
+                  newEmail: emailController.text,
+                  newPassword: newPasswordController.text,
+                  newCountry: countryController.text,
+                  newImagePath: selectedImage?.path,
+                );
+                if (updatedUser != null) {
+                  setState(() {
+                    currentUser = updatedUser;
+                  });
 
-  final updatedUser = UserUpdateHelper.getUpdatedUser(
-    currentUser: currentUser!,
-    newName: usernameController.text,
-    newEmail: emailController.text,
-    newPassword: newPasswordController.text,
-    newCountry: countryController.text,
-    newImagePath: selectedImage?.path, 
-  );
-  if (updatedUser != null) {
-    setState(() {
-      currentUser = updatedUser;
-    
-    
-    
-    });
-    
-    // TODO: Call the API here to save user new  updated data by that list >>>  currentUser that carries all user info 
+                  // TODO: Call the API here to save user new  updated data by that list >>>  currentUser that carries all user info
 
-
-
- ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Changed successfully."),
-        
-      ),
-    );
-
-  } else {
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("No changes made.")),
-    );
-oldPasswordController.clear();
-newPasswordController.clear();
-  }
-
-
-},
-
-
-),
-
+                  currentUser;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Changed successfully."),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("No changes made.")),
+                  );
+                  oldPasswordController.clear();
+                  newPasswordController.clear();
+                }
+              },
+            ),
           ],
         ),
       ),

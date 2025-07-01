@@ -13,7 +13,11 @@ dependencies:
   fluttertoast: ^8.2.2
   shared_preferences: ^2.5.2
   image_picker: ^1.1.2
-  
+  cupertino_icons: ^1.0.8
+  string_similarity: ^2.1.1
+  fuzzy: ^0.5.1
+  provider: ^6.1.2
+  flutter_secure_storage: ^9.2.4
   # awesome_dialog: ^3.2.1
   # cloud_firestore: ^5.6.5
   # firebase_auth: ^5.5.1
@@ -26,7 +30,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-
+  fuzzy: ^0.5.0
 flutter:
   uses-material-design: true
 
@@ -47,9 +51,12 @@ flutter:
       - lib/assets/images/onBoarding3.png
       - lib/assets/images/onBoarding4.png 
       - lib/assets/images/OBJECTS (3).png
+      # - lib/assets/images/twist.png
+      # - lib/assets/images/twist2.png
+      # - lib/assets/images/v-cola.png
+      # - lib/assets/images/v-colaDiet.jpg
 
 
-    
   fonts:
    - family: Montserrat
      fonts:

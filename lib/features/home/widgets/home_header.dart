@@ -36,8 +36,16 @@ class _HomeHeaderState extends State<HomeHeader> {
       _products,
       options: FuzzyOptions(
         keys: [
-          WeightedKey(name: 'name', weight: 1.0, getter: (product) => product.name),
-          WeightedKey(name: 'category', weight: 0.5, getter: (product) => product.category),
+          WeightedKey(
+            name: 'name',
+            weight: 1.0,
+            getter: (product) => product.name,
+          ),
+          WeightedKey(
+            name: 'category',
+            weight: 0.5,
+            getter: (product) => product.category,
+          ),
         ],
       ),
     );
@@ -49,54 +57,56 @@ class _HomeHeaderState extends State<HomeHeader> {
       if (query.isEmpty) {
         _filteredProducts = [];
       } else {
-        _filteredProducts = _fuzzy.search(query).map<Product>((result) => result.item as Product).toList();
+        _filteredProducts =
+            _fuzzy
+                .search(query)
+                .map<Product>((result) => result.item as Product)
+                .toList();
       }
     });
   }
 
   // ✅ Highlight matching text in search results
   RichText _highlightText(String text, String query) {
-    if (query.isEmpty) return RichText(text: TextSpan(text: text, style: TextStyle(color: Colors.black)));
+    if (query.isEmpty)
+      return RichText(
+        text: TextSpan(text: text, style: TextStyle(color: Colors.black)),
+      );
 
     List<TextSpan> spans = [];
     int start = 0;
     while (true) {
       int index = text.toLowerCase().indexOf(query.toLowerCase(), start);
       if (index == -1) {
-        spans.add(TextSpan(text: text.substring(start), style: TextStyle(color: Colors.black)));
+        spans.add(
+          TextSpan(
+            text: text.substring(start),
+            style: TextStyle(color: Colors.black),
+          ),
+        );
         break;
       }
       if (index > start) {
-        spans.add(TextSpan(text: text.substring(start, index), style: TextStyle(color: Colors.black)));
+        spans.add(
+          TextSpan(
+            text: text.substring(start, index),
+            style: TextStyle(color: Colors.black),
+          ),
+        );
       }
-      spans.add(TextSpan(
-        text: text.substring(index, index + query.length),
-        style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-      ));
+      spans.add(
+        TextSpan(
+          text: text.substring(index, index + query.length),
+          style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+        ),
+      );
       start = index + query.length;
     }
 
     return RichText(text: TextSpan(children: spans));
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   double screenWidth = MediaQuery.of(context).size.width;
-  //   double screenHeight = MediaQuery.of(context).size.height;
-
-  //   return Padding(
-  //     padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-  //     child: Column(
-  //       children: [
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.start,
-  //           children: [
-  //             SizedBox(height: screenHeight * 0.09, width: 30, child: Image.asset(Path.logo2)),
-  //           ],
-  //         ),
-  //         SizedBox(height: screenHeight * 0.02),
-
-          @override
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -112,7 +122,6 @@ class _HomeHeaderState extends State<HomeHeader> {
                 height: screenHeight * 0.09,
                 child: Image.asset(Path.logo2),
                 width: 30,
-                
               ),
             ],
           ),
@@ -146,20 +155,25 @@ class _HomeHeaderState extends State<HomeHeader> {
                       ),
                       border: InputBorder.none,
                     ),
-                     onChanged: _filterProducts,
+                    onChanged: _filterProducts,
                   ),
                 ),
               ],
             ),
           ),
 
- if (_filteredProducts.isNotEmpty)
+          if (_filteredProducts.isNotEmpty)
             Container(
               height: screenHeight * 0.3,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
-                boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 10)],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    blurRadius: 10,
+                  ),
+                ],
               ),
               child: ListView.builder(
                 shrinkWrap: true,
@@ -173,7 +187,6 @@ class _HomeHeaderState extends State<HomeHeader> {
                 },
               ),
             ),
-
         ],
       ),
     );

@@ -104,9 +104,18 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
                         );
                         if (response.statusCode == 201) {
                           // Handle success
-                          print('Review submitted successfully rating:$rating,comment:$comment');
+                          print('Review submitted successfully');
                           showSubmitReviewSheet(context);
-                        } else {
+                        }
+                        else if(response.statusCode == 409 ){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('You Have Already Reviewed This Product !!'),
+                            ),
+                          );
+                          showSubmitReviewSheet(context);
+                      }
+                        else {
                           // Handle error
                           throw Exception(
                             'Failed to submit review : ${response.headers['error']}',
@@ -117,7 +126,7 @@ class _MakeReviewPageState extends State<MakeReviewPage> {
                         // Handle error
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Failed to submit review: $e /n rating:$rating,comment:$comment'),
+                            content: Text('Failed to submit review: $e /n '),
                           ),
                         );
                       }

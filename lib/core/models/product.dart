@@ -23,21 +23,22 @@ class Product {
     // final random = Random();
     // double rawRating = 1 + random.nextDouble() * 4;
     // double roundedRating = double.parse(rawRating.toStringAsFixed(1));
-
     return Product(
-      productId: json['Product ID'] != null ? int.parse(json['Product ID'].toString()): 0, // ✅ Prevent null values
-      name: json['Product Description'] ?? 'Unknown Product', // ✅ Use default value
-      category: json['Product Category'] ?? 'Unknown Category', // ✅ Use default value
-      subcategory: json['Sub-Category'] ?? 'Unknown Subcategory', // ✅ Use default value
-      isLocal: json['Local'] , // ✅ Use default value for isLocal
-      rating: json['average_rating'] != null
-          ? double.parse(json['average_rating'].toStringAsFixed(1)) // ✅ Ensure rating is a double
-          : 0,
-      ratings_count: json['rating_count'] != null
-          ? int.parse(json['rating_count'].toString()) // ✅ Ensure ratings_count is an integer
-          : 0, // ✅ Use default value for ratings_count
+      productId:
+          json['Product ID'] != null
+              ? int.parse(json['Product ID'].toString())
+              : 0,
+      name: json['Product Description'] ?? 'Unknown Product',
+      category: json['Product Category'] ?? 'Unknown Category',
+      subcategory: json['Sub-Category'] ?? 'Unknown Subcategory',
+      isLocal: json['Local'] ?? 'unknown',
+      rating: (json['average_rating'] ?? 0).toDouble(),
+      ratings_count:
+          json['rating_count'] != null
+              ? int.tryParse(json['rating_count'].toString()) ?? 0
+              : 0,
     );
   }
-  String get imageUrl => "${config.URI}/image/$category/$productId"; // ✅ Dynamically construct image URL
-
+  String get imageUrl =>
+      "${config.URI}/image/$category/$productId"; // ✅ Dynamically construct image URL
 }
